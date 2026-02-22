@@ -1,0 +1,57 @@
+:root{
+  --bg: #FDF6E3;
+  --black: #000000;
+  --pink: #FF0055;
+  --blue: #00C2FF;
+  --yellow: #FFD60A;
+  --white: #FFFFFF;
+  --border: 6px solid var(--black);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--black);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:24px;
+}
+
+#site-root{max-width:1100px;margin:0 auto}
+
+.box{border:var(--border);padding:20px;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
+.card{border:var(--border);padding:16px;margin:12px 0;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
+
+.hero-box{display:flex;flex-direction:column;gap:8px}
+.hero-name{font-size:clamp(26px,6vw,48px);margin:0}
+.hero-title{font-weight:700;margin:0;color:var(--blue)}
+.hero-tagline{margin:6px 0 0}
+
+h3{margin:0 0 12px;font-size:18px}
+
+.projects-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.project-card .tech{margin-top:8px;color:var(--pink);font-weight:700}
+
+.skills-list{display:flex;flex-wrap:wrap;gap:8px}
+.skill{border:var(--border);padding:8px 12px;background:var(--yellow);display:inline-block}
+
+.game-mode{margin-top:12px;padding:10px 14px;border:var(--border);background:var(--pink);color:var(--white);font-weight:700;cursor:pointer}
+
+/* interactions */
+.card, .box, .project-card{transition:transform 140ms cubic-bezier(.2,.8,.2,1);cursor:default}
+.card:hover, .box:hover, .project-card:hover{transform:translateY(-8px);cursor:pointer}
+.game-mode:active{transform:scale(.98)}
+
+/* entrance animation */
+.enter{opacity:0;transform:translateY(12px);animation:enter 320ms forwards ease-out}
+@keyframes enter{to{opacity:1;transform:translateY(0)}}
+
+/* responsive */
+@media(min-width:720px){
+  .projects-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* small utilities for layout */
+section{margin:18px 0}
