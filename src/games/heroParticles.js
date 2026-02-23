@@ -58,7 +58,7 @@ function createParticleSystem(root, opts = {}) {
       const baseFactor = pointer.down ? 1.6 : 0.9;
       // force falls off with distance but never zero; tuned for snappy follow
       const force = baseFactor * (120 / (dist + 20));
-      const accel = 0.5; // tuned responsiveness
+      const accel = 0.5; // tuned responsiveness 
       p.vx += (dx / dist) * force * accel;
       p.vy += (dy / dist) * force * accel;
       // moderate damping to avoid excessive jitter

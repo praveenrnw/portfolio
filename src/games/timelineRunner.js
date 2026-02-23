@@ -28,7 +28,7 @@ export function start(root, canvasEl, cards = []) {
 
   // badges spaced across an infinite runner (we generate ahead)
   const badges = [];
-  const speed = 9.0; // even faster mode
+  const speed = 4.5; // playable fast mode
   let nextBadgeIdx = 0;
   const baseSpacing = 340; // wider spacing so jumps land on next item
   const spawnAhead = 800; // spawn badges this far ahead of viewport

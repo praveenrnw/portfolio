@@ -9,6 +9,30 @@ export function mountRoot(selector = '#app') {
 }
 
 export function renderSections(container, components, data) {
+  // Clean up any running game instances or attached stop hooks on existing elements
+  try {
+    // stop hero particle systems attached to hero sections
+    const heroes = container.querySelectorAll('.neo-hero');
+    heroes.forEach((h) => {
+      if (h && h.__heroParticles && typeof h.__heroParticles.stop === 'function') {
+        try { h.__heroParticles.stop(); } catch (e) { /* ignore */ }
+        h.__heroParticles = null;
+      }
+    });
+
+    // stop any elements that stored a _stop function (play buttons, canvases, etc.)
+    const stoppables = container.querySelectorAll('*');
+    stoppables.forEach((el) => {
+      if (el && el._stop && typeof el._stop === 'function') {
+        try { el._stop(); } catch (e) { /* ignore */ }
+        el._stop = null;
+      }
+    });
+  } catch (e) {
+    // defensive: ignore cleanup failures
+    console.warn('renderSections cleanup error', e);
+  }
+
   container.innerHTML = '';
   const order = [
     { fn: 'renderHero', data: data.hero },
