@@ -54,11 +54,16 @@ function createParticleSystem(root, opts = {}) {
       const dx = pointer.x - p.x;
       const dy = pointer.y - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy) + 0.001;
-      const force = Math.max(0, 60 - dist) * (pointer.down ? 0.12 : 0.04);
-      p.vx += (dx / dist) * force * 0.01;
-      p.vy += (dy / dist) * force * 0.01;
-      p.vx *= 0.985;
-      p.vy *= 0.985;
+      // continuous inverse-distance attraction so particles are always pulled
+      const baseFactor = pointer.down ? 1.6 : 0.9;
+      // force falls off with distance but never zero; tuned for snappy follow
+      const force = baseFactor * (120 / (dist + 20));
+      const accel = 0.5; // tuned responsiveness
+      p.vx += (dx / dist) * force * accel;
+      p.vy += (dy / dist) * force * accel;
+      // moderate damping to avoid excessive jitter
+      p.vx *= 0.92;
+      p.vy *= 0.92;
       p.x += p.vx;
       p.y += p.vy;
       if (p.x < -10) p.x = w + 10;
