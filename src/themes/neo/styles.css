@@ -21,10 +21,24 @@ body{
 
 #site-root{max-width:1100px;margin:0 auto}
 
-.box{border:var(--border);padding:20px;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
+/* Page layout */
+.container{max-width:1100px;margin:0 auto;padding:0 18px}
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.site-title{font-size:18px;font-weight:900;letter-spacing:1px}
+.theme-toggle{border:6px solid var(--black);background:var(--pink);color:var(--white);padding:10px 12px;font-weight:900;cursor:pointer}
+.theme-toggle:active{transform:scale(.98)}
+.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{left:18px;top:12px;width:auto;height:auto;padding:8px 12px;background:var(--black);color:var(--white);z-index:200}
+.site-footer{padding:24px 0;text-align:center;border-top:6px solid var(--black);margin-top:40px}
+
+.box{border:var(--border);padding:20px;background:var(--white);box-shadow:8px 8px 0 0 var(--black);position:relative}
 .card{border:var(--border);padding:16px;margin:12px 0;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
 
-.hero-box{display:flex;flex-direction:column;gap:8px}
+/* decorative accents for neo brutalism */
+.hero-deco{position:absolute;right:-24px;top:-24px;width:140px;height:140px;background:var(--blue);transform:rotate(12deg);box-shadow:10px 10px 0 0 var(--black)}
+.accent-block{width:44px;height:20px;background:var(--pink);display:inline-block;margin-left:8px}
+
+.hero-box{display:flex;flex-direction:column;gap:8px;padding-right:48px}
 .hero-name{font-size:clamp(26px,6vw,48px);margin:0}
 .hero-title{font-weight:700;margin:0;color:var(--blue)}
 .hero-tagline{margin:6px 0 0}
@@ -34,23 +48,41 @@ h3{margin:0 0 12px;font-size:18px}
 .projects-grid{display:grid;grid-template-columns:1fr;gap:12px}
 .project-card .tech{margin-top:8px;color:var(--pink);font-weight:700}
 
+/* tech badges */
+.tech-badge{display:inline-block;padding:6px 8px;border:4px solid var(--black);font-weight:800;margin-right:6px;margin-top:8px}
+.tech-flutter{background:#35c0ff;color:#002233}
+.tech-dart{background:#0047b3;color:#fff}
+.tech-unity{background:#000;color:#fff}
+.tech-csharp{background:#2a9df4;color:#001}
+.tech-javascript{background:#f7df1e;color:#000}
+.tech-html{background:#e34f26;color:#fff}
+.tech-css{background:#264de4;color:#fff}
+.tech-python{background:#3572A5;color:#fff}
+
 .skills-list{display:flex;flex-wrap:wrap;gap:8px}
-.skill{border:var(--border);padding:8px 12px;background:var(--yellow);display:inline-block}
+.skill{border:var(--border);padding:8px 12px;background:var(--yellow);display:inline-block;cursor:default}
+.skill:focus{outline:4px solid var(--black)}
 
 .game-mode{margin-top:12px;padding:10px 14px;border:var(--border);background:var(--pink);color:var(--white);font-weight:700;cursor:pointer}
 
 /* interactions */
 .card, .box, .project-card{transition:transform 140ms cubic-bezier(.2,.8,.2,1);cursor:default}
-.card:hover, .box:hover, .project-card:hover{transform:translateY(-8px);cursor:pointer}
+.card:hover, .box:hover, .project-card:hover{transform:translateY(-8px) rotate(-0.6deg);cursor:pointer}
 .game-mode:active{transform:scale(.98)}
 
 /* entrance animation */
 .enter{opacity:0;transform:translateY(12px);animation:enter 320ms forwards ease-out}
 @keyframes enter{to{opacity:1;transform:translateY(0)}}
 
+@media (prefers-reduced-motion: reduce){
+  .enter{animation:none;transform:none}
+  .card, .box, .project-card{transition:none}
+}
+
 /* responsive */
 @media(min-width:720px){
   .projects-grid{grid-template-columns:repeat(2,1fr)}
+  .site-title{font-size:20px}
 }
 
 /* small utilities for layout */

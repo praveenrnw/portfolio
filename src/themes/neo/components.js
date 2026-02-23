@@ -8,16 +8,27 @@ const create = (tag, cls, attrs = {}) => {
 export function renderHero(data) {
   const section = create('section', 'neo-hero');
   const box = create('div', 'box hero-box');
+  const deco = create('div', 'hero-deco');
   const h1 = create('h1', 'hero-name');
   h1.textContent = data.name;
   const h2 = create('h2', 'hero-title');
   h2.textContent = data.title;
   const p = create('p', 'hero-tagline');
   p.textContent = data.tagline;
+  const meta = create('div', 'hero-meta');
+  const accent = create('span', 'accent-block');
+  meta.appendChild(accent);
+  const contactBtn = create('a', 'game-mode');
+  contactBtn.href = `mailto:${(data.email || '')}`;
+  contactBtn.textContent = 'Email Me';
+  contactBtn.setAttribute('aria-label', 'Email Praveen');
   box.appendChild(h1);
   box.appendChild(h2);
   box.appendChild(p);
+  box.appendChild(meta);
+  // only append deco if space
   section.appendChild(box);
+  section.appendChild(deco);
   return section;
 }
 
@@ -39,25 +50,30 @@ export function renderExperience(items) {
   const h3 = create('h3');
   h3.textContent = 'Experience';
   section.appendChild(h3);
+  const list = create('div', 'exp-list');
   items.forEach((it) => {
-    const card = create('article', 'card');
+    const card = create('article', 'card exp-card');
     const head = create('div', 'card-head');
+    const left = create('div', 'exp-left');
+    const right = create('div', 'exp-right');
     const role = create('strong');
     role.textContent = it.role;
     const meta = create('div', 'meta');
     meta.textContent = `${it.company} • ${it.duration}`;
-    head.appendChild(role);
-    head.appendChild(meta);
+    left.appendChild(role);
+    left.appendChild(meta);
     const ul = create('ul');
     it.points.forEach((p) => {
       const li = create('li');
       li.textContent = p;
       ul.appendChild(li);
     });
-    card.appendChild(head);
-    card.appendChild(ul);
-    section.appendChild(card);
+    right.appendChild(ul);
+    card.appendChild(left);
+    card.appendChild(right);
+    list.appendChild(card);
   });
+  section.appendChild(list);
   return section;
 }
 
@@ -73,11 +89,18 @@ export function renderProjects(items) {
     title.textContent = p.name;
     const desc = create('p');
     desc.textContent = p.description;
-    const tech = create('div', 'tech');
-    tech.textContent = p.tech.join(' • ');
+    const techWrap = create('div', 'tech');
+    p.tech.forEach((t) => {
+      const b = create('span', 'tech-badge');
+      // normalize class
+      const key = t.toLowerCase().replace(/[^a-z0-9]+/g, '');
+      b.classList.add(`tech-${key}`);
+      b.textContent = t;
+      techWrap.appendChild(b);
+    });
     card.appendChild(title);
     card.appendChild(desc);
-    card.appendChild(tech);
+    card.appendChild(techWrap);
     grid.appendChild(card);
   });
   section.appendChild(grid);
@@ -91,8 +114,10 @@ export function renderSkills(items) {
   section.appendChild(h3);
   const list = create('div', 'skills-list');
   items.forEach((s) => {
-    const pill = create('span', 'skill');
+    const pill = create('button', 'skill');
+    pill.type = 'button';
     pill.textContent = s;
+    pill.setAttribute('aria-label', `Skill ${s}`);
     list.appendChild(pill);
   });
   section.appendChild(list);
@@ -108,12 +133,21 @@ export function renderContact(data) {
   email.innerHTML = `<strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a>`;
   const loc = create('div');
   loc.innerHTML = `<strong>Location:</strong> ${data.location}`;
-  const btn = create('button', 'game-mode');
-  btn.type = 'button';
-  btn.textContent = 'Enter Game Mode (Coming Soon)';
+  const copy = create('button', 'game-mode');
+  copy.type = 'button';
+  copy.textContent = 'Copy Email';
+  copy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(data.email);
+      copy.textContent = 'Copied!';
+      setTimeout(() => (copy.textContent = 'Copy Email'), 1200);
+    } catch (e) {
+      console.error('copy failed', e);
+    }
+  });
   card.appendChild(email);
   card.appendChild(loc);
-  card.appendChild(btn);
+  card.appendChild(copy);
   section.appendChild(h3);
   section.appendChild(card);
   return section;

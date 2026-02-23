@@ -14,12 +14,15 @@ class ThemeManager {
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `/src/themes/${name}/styles.css`;
+    // href should be relative to the page (index.html) so browsers can load it
+    link.href = `./src/themes/${name}/styles.css`;
     link.id = this._linkId;
     document.head.appendChild(link);
 
     // dynamic import of components
-    const mod = await import(`/src/themes/${name}/components.js`);
+    // Use a relative import path from this module's location so native ESM can resolve it.
+    // themeManager.js lives in /src/core/, so themes are at ../themes/
+    const mod = await import(`../themes/${name}/components.js`);
     this.components = mod;
     this.current = name;
     this._listeners.forEach((cb) => cb(name));

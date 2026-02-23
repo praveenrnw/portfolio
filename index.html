@@ -2,11 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio — Praveen Ramesh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Praveen Ramesh — Interactive App & Game Developer. Portfolio showcasing apps, games, and systems." />
+    <meta name="theme-color" content="#FDF6E3" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico">
+    <title>Praveen Ramesh — Portfolio</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <a class="skip-link" href="#site-root">Skip to content</a>
+    <header role="banner" class="site-header">
+      <div class="container">
+        <h1 class="site-title">Praveen Ramesh</h1>
+        <button id="theme-toggle" class="theme-toggle" aria-pressed="false">Enter Game Mode (Coming Soon)</button>
+      </div>
+    </header>
+
+    <main id="app" role="main" class="container"></main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© Praveen Ramesh</p>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
