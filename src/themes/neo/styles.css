@@ -35,10 +35,45 @@ body{
 .card{border:var(--border);padding:16px;margin:12px 0;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
 
 /* decorative accents for neo brutalism */
-.hero-deco{position:absolute;right:-24px;top:-24px;width:140px;height:140px;background:var(--blue);transform:rotate(12deg);box-shadow:10px 10px 0 0 var(--black)}
+.hero-deco{position:absolute;right:-12px;top:-12px;width:150px;height:150px;background:var(--blue);transform:rotate(6deg);box-shadow:10px 10px 0 0 var(--black);z-index:20}
 .accent-block{width:44px;height:20px;background:var(--pink);display:inline-block;margin-left:8px}
 
-.hero-box{display:flex;flex-direction:column;gap:8px;padding-right:48px}
+/* profile placed near the hero deco */
+.neo-hero{position:relative}
+.hero-profile{
+  /* match deco size and rotation so profile aligns with the blue block */
+  position:absolute;
+  right:-12px;
+  top:-12px;
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border:6px solid var(--black);
+  box-shadow:8px 8px 0 0 var(--black);
+  border-radius:6px;
+  transform:rotate(6deg);
+  background:var(--white);
+  z-index:30;
+}
+
+@media(min-width:720px){
+  .hero-profile{width:150px;height:150px;right:-12px;top:-12px}
+}
+
+/* header branding */
+.site-branding{display:flex;align-items:center;gap:12px}
+.site-header .profile-pic{
+  width:56px;
+  height:56px;
+  object-fit:cover;
+  border:6px solid var(--black);
+  box-shadow:8px 8px 0 var(--black);
+  border-radius:6px;
+  transform:rotate(-6deg);
+  display:inline-block;
+}
+
+.hero-box{display:flex;flex-direction:column;gap:8px;padding-right:180px}
 .hero-name{font-size:clamp(26px,6vw,48px);margin:0}
 .hero-title{font-weight:700;margin:0;color:var(--blue)}
 .hero-tagline{margin:6px 0 0}
@@ -83,6 +118,7 @@ h3{margin:0 0 12px;font-size:18px}
 @media(min-width:720px){
   .projects-grid{grid-template-columns:repeat(2,1fr)}
   .site-title{font-size:20px}
+  .site-header .profile-pic{width:72px;height:72px}
 }
 
 /* small utilities for layout */

@@ -9,6 +9,7 @@ export function renderHero(data) {
   const section = create('section', 'neo-hero');
   const box = create('div', 'box hero-box');
   const deco = create('div', 'hero-deco');
+  const profile = create('img', 'hero-profile', { src: './assets/profile.jpg', alt: `${data.name} — portrait` });
   const h1 = create('h1', 'hero-name');
   h1.textContent = data.name;
   const h2 = create('h2', 'hero-title');
@@ -29,6 +30,8 @@ export function renderHero(data) {
   // only append deco if space
   section.appendChild(box);
   section.appendChild(deco);
+  // place profile overlapping the deco (absolute positioning handled in CSS)
+  section.appendChild(profile);
   return section;
 }
 
