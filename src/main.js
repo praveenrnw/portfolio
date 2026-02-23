@@ -23,8 +23,21 @@ async function boot() {
         { transform: 'translateY(-6px) rotate(-2deg)' },
         { transform: 'translateY(0) rotate(0)' }
       ], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      // placeholder: future theme switching
-      // themeManager.setTheme('mario') // when implemented
+      // toggle Hero particles game mode
+      if (!btn.dataset.gameActive) {
+        // start game
+        const mod = await import('./games/heroParticles.js');
+        btn.dataset.gameActive = '1';
+        btn.textContent = 'Exit Game Mode';
+        // start collect game on the hero section (simple mode: no UI/timer)
+        btn._stopGame = mod.startGame(document.querySelector('.neo-hero'), { simple: true });
+      } else {
+        // stop game
+        btn.dataset.gameActive = '';
+        btn.textContent = 'Enter Game Mode (Coming Soon)';
+        if (btn._stopGame) btn._stopGame();
+        btn._stopGame = null;
+      }
     });
   }
 
