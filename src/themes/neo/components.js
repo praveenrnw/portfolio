@@ -78,8 +78,9 @@ export function renderExperience(items) {
   h3.textContent = 'Experience';
   section.appendChild(h3);
   const list = create('div', 'exp-list');
-  items.forEach((it) => {
+  items.forEach((it, idx) => {
     const card = create('article', 'card exp-card');
+    card.dataset.expIndex = String(idx);
     const head = create('div', 'card-head');
     const left = create('div', 'exp-left');
     const right = create('div', 'exp-right');
@@ -128,6 +129,36 @@ export function renderProjects(items) {
     card.appendChild(title);
     card.appendChild(desc);
     card.appendChild(techWrap);
+    // if this project references Unity, attach the mini-game play button and canvas here
+    const isUnityProject = p.tech && p.tech.some((t) => (/unity/i).test(t));
+    if (isUnityProject) {
+      const playBtn = create('button', 'timeline-play');
+      playBtn.type = 'button';
+      playBtn.textContent = 'Play Mini Game';
+      const runnerCanvas = create('canvas', 'timeline-canvas');
+      runnerCanvas.setAttribute('aria-hidden', 'true');
+      card.appendChild(playBtn);
+      card.appendChild(runnerCanvas);
+
+      playBtn.addEventListener('click', async (e) => {
+        const btn = e.currentTarget;
+        if (!btn.dataset.playing) {
+          const mod = await import('../../games/timelineRunner.js');
+          btn.dataset.playing = '1';
+          btn.textContent = 'Stop Mini Game';
+          // add spacing so the canvas doesn't collide with the tile above
+          runnerCanvas.style.marginTop = '40px';
+          const cards = Array.from(document.querySelectorAll('.exp-card'));
+          btn._stop = mod.start(document.querySelector('.neo-experience'), runnerCanvas, cards);
+        } else {
+          btn.dataset.playing = '';
+          btn.textContent = 'Play Mini Game';
+          if (btn._stop) btn._stop();
+          btn._stop = null;
+          runnerCanvas.style.marginTop = '';
+        }
+      });
+    }
     grid.appendChild(card);
   });
   section.appendChild(grid);
