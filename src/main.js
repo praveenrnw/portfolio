@@ -11,6 +11,17 @@ async function boot() {
   // render all sections
   renderSections(root, comps, portfolioData);
 
+  // If the data requests a skeuomorphic hero, mark the site-root so tiles can adopt the same style
+  try {
+    if (portfolioData && portfolioData.hero && portfolioData.hero.variant === 'skeuo') {
+      root.classList.add('skeuo');
+    } else {
+      root.classList.remove('skeuo');
+    }
+  } catch (e) {
+    /* ignore */
+  }
+
   // wire header theme toggle
   const toggle = document.getElementById('theme-toggle');
   if (toggle) {
@@ -45,6 +56,13 @@ async function boot() {
   themeManager.onThemeChange(() => {
     const comps = themeManager.getComponents();
     renderSections(root, comps, portfolioData);
+    try {
+      if (portfolioData && portfolioData.hero && portfolioData.hero.variant === 'skeuo') {
+        root.classList.add('skeuo');
+      } else {
+        root.classList.remove('skeuo');
+      }
+    } catch (e) { /* ignore */ }
   });
 }
 
