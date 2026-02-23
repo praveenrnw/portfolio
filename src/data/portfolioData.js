@@ -2,7 +2,8 @@ export const portfolioData = {
   hero: {
     name: "Praveen Ramesh",
     title: "Interactive App & Game Developer",
-    tagline: "I build things that move — apps, games, and systems."
+    tagline: "I build things that move — apps, games, and systems.",
+    variant: 'skeuo'
   },
   about: {
     description:

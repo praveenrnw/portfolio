@@ -12,6 +12,9 @@ export function renderHero(data) {
   const profile = create('img', 'hero-profile', { src: './assets/profile-a.jpg', alt: `${data.name} — portrait` });
   profile.dataset.altSrc = './assets/profile-b.jpg';
 
+  // Apply skeuomorphic variant if requested
+  if (data && data.variant === 'skeuo') section.classList.add('hero-skeuo');
+
   const h1 = create('h1', 'hero-name');
   h1.textContent = data.name;
   const h2 = create('h2', 'hero-title');
@@ -23,14 +26,50 @@ export function renderHero(data) {
   const accent = create('span', 'accent-block');
   meta.appendChild(accent);
 
-  box.appendChild(h1);
-  box.appendChild(h2);
-  box.appendChild(p);
-  box.appendChild(meta);
+  // Build hero layout
+  const grid = create('div', 'hero-grid');
+  const content = create('div', 'hero-content');
+  const profileWrap = create('div', 'hero-profile-wrap');
 
+  content.appendChild(h1);
+  content.appendChild(h2);
+  content.appendChild(p);
+  content.appendChild(meta);
+
+  // CTAs
+  const ctas = create('div', 'hero-ctas');
+  const resume = create('a', 'btn');
+  resume.href = './resume.pdf';
+  resume.textContent = 'Resume';
+  const projects = create('a', 'btn secondary');
+  projects.href = '#projects';
+  projects.textContent = 'Projects';
+  ctas.appendChild(resume);
+  ctas.appendChild(projects);
+  content.appendChild(ctas);
+
+  // TOC chips for skeuo variant
+  if (data && data.variant === 'skeuo') {
+    const paperTitle = create('div', 'paper-title');
+    paperTitle.classList.add('paper-title');
+    paperTitle.textContent = 'PORTFOLIO.';
+    box.appendChild(paperTitle);
+    const toc = create('div', 'toc-chips');
+    ['Apps','Games','VR'].forEach((t) => {
+      const chip = create('div', 'toc-chip');
+      chip.textContent = t;
+      toc.appendChild(chip);
+    });
+    content.appendChild(toc);
+  }
+
+  profileWrap.appendChild(profile);
+  grid.appendChild(content);
+  grid.appendChild(profileWrap);
+
+  box.appendChild(grid);
   section.appendChild(box);
   section.appendChild(deco);
-  section.appendChild(profile);
 
   // hover swap for desktop
   profile.addEventListener('mouseenter', () => {
