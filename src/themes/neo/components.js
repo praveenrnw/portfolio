@@ -9,7 +9,9 @@ export function renderHero(data) {
   const section = create('section', 'neo-hero');
   const box = create('div', 'box hero-box');
   const deco = create('div', 'hero-deco');
-  const profile = create('img', 'hero-profile', { src: './assets/profile.jpg', alt: `${data.name} — portrait` });
+  const profile = create('img', 'hero-profile', { src: './assets/profile-a.jpg', alt: `${data.name} — portrait` });
+  // store alternate src for hover / touch
+  profile.dataset.altSrc = './assets/profile-b.jpg';
   const h1 = create('h1', 'hero-name');
   h1.textContent = data.name;
   const h2 = create('h2', 'hero-title');
@@ -32,6 +34,28 @@ export function renderHero(data) {
   section.appendChild(deco);
   // place profile overlapping the deco (absolute positioning handled in CSS)
   section.appendChild(profile);
+
+  // swap image on hover (desktop) and on touch (mobile)
+  profile.addEventListener('mouseenter', () => {
+    profile.dataset.prev = profile.src;
+    profile.src = profile.dataset.altSrc;
+  });
+  profile.addEventListener('mouseleave', () => {
+    if (profile.dataset.prev) profile.src = profile.dataset.prev;
+  });
+
+  // touch: show alternate briefly on tap
+  let touchTimer = null;
+  profile.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (touchTimer) clearTimeout(touchTimer);
+    profile.dataset.prev = profile.src;
+    profile.src = profile.dataset.altSrc;
+    touchTimer = setTimeout(() => {
+      profile.src = profile.dataset.prev || profile.src;
+      touchTimer = null;
+    }, 1200);
+  });
   return section;
 }
 
