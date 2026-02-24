@@ -38,16 +38,15 @@ body{
 .card{border:var(--border);padding:16px;margin:12px 0;background:var(--white);box-shadow:8px 8px 0 0 var(--black);}
 
 /* decorative accents for neo brutalism */
-.hero-deco{position:absolute;right:-12px;top:-12px;width:150px;height:150px;background:var(--blue);transform:rotate(6deg);box-shadow:10px 10px 0 0 var(--black);z-index:20}
 .accent-block{width:44px;height:20px;background:var(--pink);display:inline-block;margin-left:8px}
 
 /* profile placed near the hero deco */
 .neo-hero{position:relative}
 .hero-profile{
-  /* place profile on the left and make it larger */
-  position:absolute;
-  left:-12px;
-  top:-12px;
+  /* place profile in normal flow (left column) and make it larger */
+  position:relative;
+  left:0;
+  top:0;
   width:220px;
   height:220px;
   object-fit:cover;
@@ -59,8 +58,20 @@ body{
   z-index:30;
 }
 
+/* grid layout for hero: profile left, content right */
+.hero-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center;position:relative}
+.hero-content{padding:8px 0}
+.hero-profile-wrap{display:flex;align-items:center;justify-content:center}
+
 @media(min-width:720px){
-  .hero-profile{width:220px;height:220px;left:-12px;top:-12px}
+  .hero-profile{width:220px;height:220px;left:0;top:0}
+}
+
+@media(max-width:720px){
+  .hero-grid{grid-template-columns:1fr;gap:12px}
+  .hero-profile{width:140px;height:140px;transform:none;margin:0 auto}
+  .hero-profile-wrap{justify-content:center}
+  .hero-content{padding-top:8px}
 }
 
 /* header branding */

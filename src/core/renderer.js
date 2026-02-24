@@ -35,8 +35,9 @@ export function renderSections(container, components, data) {
 
   container.innerHTML = '';
   const order = [
-    { fn: 'renderHero', data: data.hero },
-    { fn: 'renderAbout', data: data.about },
+    // pass the full data so renderHero can merge About text into the hero
+    { fn: 'renderHero', data },
+    // About is merged into hero; do not render a separate About tile
     { fn: 'renderExperience', data: data.experience },
     { fn: 'renderProjects', data: data.projects },
     { fn: 'renderSkills', data: data.skills },
