@@ -121,12 +121,14 @@ export function renderExperience(items) {
 }
 
 // Terminal-style card that contains the full experience details
-export function renderTerminal(items) {
+export function renderTerminal(data) {
+  // data is the full portfolioData object so we can access experience and skills
   const section = create('section', 'terminal-section');
   const grid = create('div', 'terminal-grid');
-  const leftEmpty = create('div', 'terminal-left-empty');
-  const rightWrap = create('div', 'terminal-right');
+  const leftWrap = create('div', 'terminal-left');
+  const rightWrap = create('div', 'terminal-right-skills');
 
+  // Terminal card (left)
   const card = create('div', 'terminal-card');
   const header = create('div', 'terminal-header');
   const controls = create('div', 'term-controls');
@@ -141,7 +143,8 @@ export function renderTerminal(items) {
 
   const body = create('div', 'terminal-body');
   // render full experience details inside the terminal
-  items.forEach((it) => {
+  const experiences = (data && data.experience) ? data.experience : data;
+  experiences.forEach((it) => {
     const entry = create('div', 'term-entry');
     const title = create('div', 'term-title');
     title.textContent = `${it.role} — ${it.company} (${it.duration})`;
@@ -157,8 +160,31 @@ export function renderTerminal(items) {
   });
 
   card.appendChild(body);
-  rightWrap.appendChild(card);
-  grid.appendChild(leftEmpty);
+  leftWrap.appendChild(card);
+
+  // Skills tiles (right) — positioned randomly
+  const skillsWrap = create('div', 'skills-nodes');
+  const skills = (data && data.skills) ? data.skills : [];
+  // give the skills area a fixed height so absolute positioned tiles have a space
+  skillsWrap.style.minHeight = '360px';
+
+  skills.forEach((s) => {
+    const node = create('div', 'skill-node');
+    // create normalized class for color theming
+    const key = s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    node.classList.add(`tech-${key}`);
+    node.textContent = s;
+    node.setAttribute('title', s);
+    skillsWrap.appendChild(node);
+  });
+
+  const skillsHeader = create('h3', 'terminal-skills-title');
+  skillsHeader.textContent = 'Skills';
+  const skillsFrame = create('div', 'skills-frame');
+  skillsFrame.appendChild(skillsHeader);
+  skillsFrame.appendChild(skillsWrap);
+  rightWrap.appendChild(skillsFrame);
+  grid.appendChild(leftWrap);
   grid.appendChild(rightWrap);
   section.appendChild(grid);
   return section;
