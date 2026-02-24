@@ -195,58 +195,61 @@ export function renderProjects(items) {
   const h3 = create('h3');
   h3.textContent = 'Projects';
   section.appendChild(h3);
-  const grid = create('div', 'projects-grid');
+
+  // horizontally scrollable projects row
+  const scroll = create('div', 'projects-scroll');
   items.forEach((p) => {
-    const card = create('article', 'project-card card');
-    const title = create('strong');
+    const card = create('article', 'project-card card project-card-horizontal');
+
+    // avatar (project-specific image or initials)
+    const avatarWrap = create('div', 'project-avatar-wrap');
+    const avatar = create('div', 'project-avatar');
+    if (p.image) {
+      const img = create('img');
+      img.src = p.image;
+      img.alt = p.name;
+      avatar.appendChild(img);
+    } else {
+      const initials = p.name.split(' ').map((w) => w[0]).join('').slice(0,2).toUpperCase();
+      avatar.textContent = initials;
+    }
+    // color the avatar by the first tech if present
+    if (p.tech && p.tech.length) {
+      const key = p.tech[0].toLowerCase().replace(/[^a-z0-9]+/g, '');
+      avatar.classList.add(`tech-${key}`);
+    }
+    avatarWrap.appendChild(avatar);
+    card.appendChild(avatarWrap);
+
+    // details
+    const title = create('strong', 'project-title');
     title.textContent = p.name;
-    const desc = create('p');
+    const desc = create('p', 'project-desc');
     desc.textContent = p.description;
-    const techWrap = create('div', 'tech');
+    card.appendChild(title);
+    card.appendChild(desc);
+
+    // language / tech badges
+    const techWrap = create('div', 'project-techs');
     p.tech.forEach((t) => {
       const b = create('span', 'tech-badge');
-      // normalize class
       const key = t.toLowerCase().replace(/[^a-z0-9]+/g, '');
       b.classList.add(`tech-${key}`);
       b.textContent = t;
       techWrap.appendChild(b);
     });
-    card.appendChild(title);
-    card.appendChild(desc);
     card.appendChild(techWrap);
-    // if this project references Unity, attach the mini-game play button and canvas here
-    const isUnityProject = p.tech && p.tech.some((t) => (/unity/i).test(t));
-    if (isUnityProject) {
-      const playBtn = create('button', 'timeline-play');
-      playBtn.type = 'button';
-      playBtn.textContent = 'Play Mini Game';
-      const runnerCanvas = create('canvas', 'timeline-canvas');
-      runnerCanvas.setAttribute('aria-hidden', 'true');
-      card.appendChild(playBtn);
-      card.appendChild(runnerCanvas);
 
-      playBtn.addEventListener('click', async (e) => {
-        const btn = e.currentTarget;
-        if (!btn.dataset.playing) {
-          const mod = await import('../../games/timelineRunner.js');
-          btn.dataset.playing = '1';
-          btn.textContent = 'Stop Mini Game';
-          // add spacing so the canvas doesn't collide with the tile above
-          runnerCanvas.style.marginTop = '40px';
-          const cards = Array.from(document.querySelectorAll('.exp-card'));
-          btn._stop = mod.start(document.querySelector('.neo-experience'), runnerCanvas, cards);
-        } else {
-          btn.dataset.playing = '';
-          btn.textContent = 'Play Mini Game';
-          if (btn._stop) btn._stop();
-          btn._stop = null;
-          runnerCanvas.style.marginTop = '';
-        }
-      });
-    }
-    grid.appendChild(card);
+    // view more button attached to bottom
+    const view = create('a', 'project-btn');
+    view.href = p.url || '#projects';
+    view.textContent = 'View More';
+    card.appendChild(view);
+
+    scroll.appendChild(card);
   });
-  section.appendChild(grid);
+
+  section.appendChild(scroll);
   return section;
 }
 
