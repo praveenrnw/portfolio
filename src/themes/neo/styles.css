@@ -95,6 +95,9 @@
 .contact-field-btn:focus{ outline: none; box-shadow: 0 0 0 6px rgba(255,212,0,0.06); }
 .contact-info{ margin-top:10px; color:var(--muted); font-size:13px; }
 .contact-info-row{ margin-top:6px; }
+
+/* Add space between hero and terminal sections */
+.neo-hero { margin-bottom: 48px; }
 @media (max-width:720px){
   .contact-label{ width:72px; font-size:11px; }
   .contact-value{ font-size:14px; }
