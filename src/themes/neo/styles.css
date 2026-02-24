@@ -164,6 +164,32 @@ h3{margin:0 0 12px;font-size:18px}
 /* small utilities for layout */
 section{margin:18px 0}
 
+/* Terminal card layout */
+.terminal-section{margin:18px 0}
+.terminal-grid{display:grid;grid-template-columns:1fr 560px;gap:24px;align-items:start}
+.terminal-left-empty{}
+.terminal-right{display:flex;justify-content:flex-end}
+.terminal-card{background:linear-gradient(180deg,#ffefdf 0%, #ffd9b8 100%);border:6px solid var(--black);box-shadow:10px 10px 0 0 var(--black);width:100%;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;color:var(--black)}
+.terminal-header{padding:8px 12px;border-bottom:2px solid rgba(0,0,0,0.06);display:flex;align-items:center}
+.term-controls{display:flex;gap:8px}
+.term-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-weight:700;background:rgba(0,0,0,0.06)}
+.term-min{transform:translateY(1px)}
+.term-close{background:rgba(0,0,0,0.08)}
+.terminal-body{padding:12px}
+.term-entry{margin-bottom:12px}
+.term-title{font-weight:800;margin-bottom:6px}
+.term-points{margin:0;padding-left:18px;color:rgba(0,0,0,0.8)}
+.term-points li{margin-bottom:6px}
+
+@media(max-width:920px){
+  .terminal-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .terminal-grid{grid-template-columns:1fr}
+  .terminal-right{justify-content:center}
+  .terminal-card{width:100%}
+}
+
 /* timeline runner styles */
 .timeline-wrap{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .timeline-play{border:6px solid var(--black);background:var(--blue);color:var(--white);padding:8px 10px;font-weight:800;cursor:pointer;align-self:flex-start}
