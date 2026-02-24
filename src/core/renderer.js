@@ -39,8 +39,7 @@ export function renderSections(container, components, data) {
     { fn: 'renderHero', data },
     // terminal card (left) with full experience and skills details
     { fn: 'renderTerminal', data },
-    // compact experience section (role + company only)
-    { fn: 'renderExperience', data: data.experience },
+    // Note: experience section is intentionally omitted (rendered inside terminal)
     { fn: 'renderProjects', data: data.projects },
     { fn: 'renderContact', data: data.contact }
   ];
