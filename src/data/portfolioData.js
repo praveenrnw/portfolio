@@ -67,7 +67,7 @@ export const portfolioData = {
     "JavaScript",
     "HTML",
     "CSS",
-    "Python (Learning)"
+    "Python"
   ],
   contact: {
     email: "praveen0402199@gmail.com",
