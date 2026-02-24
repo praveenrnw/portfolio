@@ -37,7 +37,9 @@ export function renderSections(container, components, data) {
   const order = [
     // pass the full data so renderHero can merge About text into the hero
     { fn: 'renderHero', data },
-    // About is merged into hero; do not render a separate About tile
+    // terminal card (right) with full experience details
+    { fn: 'renderTerminal', data: data.experience },
+    // compact experience section (role + company only)
     { fn: 'renderExperience', data: data.experience },
     { fn: 'renderProjects', data: data.projects },
     { fn: 'renderSkills', data: data.skills },

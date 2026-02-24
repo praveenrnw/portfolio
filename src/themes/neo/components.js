@@ -102,31 +102,65 @@ export function renderExperience(items) {
   const h3 = create('h3');
   h3.textContent = 'Experience';
   section.appendChild(h3);
-  const list = create('div', 'exp-list');
+  const list = create('div', 'exp-list compact');
   items.forEach((it, idx) => {
-    const card = create('article', 'card exp-card');
+    const card = create('article', 'card exp-card compact-card');
     card.dataset.expIndex = String(idx);
-    const head = create('div', 'card-head');
     const left = create('div', 'exp-left');
-    const right = create('div', 'exp-right');
     const role = create('strong');
     role.textContent = it.role;
     const meta = create('div', 'meta');
-    meta.textContent = `${it.company} • ${it.duration}`;
+    meta.textContent = it.company;
     left.appendChild(role);
     left.appendChild(meta);
-    const ul = create('ul');
-    it.points.forEach((p) => {
-      const li = create('li');
-      li.textContent = p;
-      ul.appendChild(li);
-    });
-    right.appendChild(ul);
     card.appendChild(left);
-    card.appendChild(right);
     list.appendChild(card);
   });
   section.appendChild(list);
+  return section;
+}
+
+// Terminal-style card that contains the full experience details
+export function renderTerminal(items) {
+  const section = create('section', 'terminal-section');
+  const grid = create('div', 'terminal-grid');
+  const leftEmpty = create('div', 'terminal-left-empty');
+  const rightWrap = create('div', 'terminal-right');
+
+  const card = create('div', 'terminal-card');
+  const header = create('div', 'terminal-header');
+  const controls = create('div', 'term-controls');
+  const btnMin = create('span', 'term-btn term-min');
+  btnMin.textContent = '-';
+  const btnClose = create('span', 'term-btn term-close');
+  btnClose.textContent = 'x';
+  controls.appendChild(btnMin);
+  controls.appendChild(btnClose);
+  header.appendChild(controls);
+  card.appendChild(header);
+
+  const body = create('div', 'terminal-body');
+  // render full experience details inside the terminal
+  items.forEach((it) => {
+    const entry = create('div', 'term-entry');
+    const title = create('div', 'term-title');
+    title.textContent = `${it.role} — ${it.company} (${it.duration})`;
+    entry.appendChild(title);
+    const pts = create('ul', 'term-points');
+    it.points.forEach((p) => {
+      const li = create('li');
+      li.textContent = p;
+      pts.appendChild(li);
+    });
+    entry.appendChild(pts);
+    body.appendChild(entry);
+  });
+
+  card.appendChild(body);
+  rightWrap.appendChild(card);
+  grid.appendChild(leftEmpty);
+  grid.appendChild(rightWrap);
+  section.appendChild(grid);
   return section;
 }
 
