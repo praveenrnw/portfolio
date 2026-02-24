@@ -71,6 +71,35 @@
 .neo-projects .projects-scroll,
 .neo-projects .project-card-horizontal{ z-index: 1; position: relative; }
 
+/* Contact section refinements */
+.neo-contact{ padding: 18px 6px 28px; }
+.neo-contact h3{ font-size:18px; font-weight:900; text-transform:uppercase; margin-bottom:12px; }
+.contact-card{ display:flex; flex-direction:column; gap:12px; padding:18px; background:var(--surface); border:8px solid var(--black); }
+.contact-row{ display:flex; gap:12px; align-items:center; }
+.contact-label{ width:90px; font-weight:900; color:var(--muted); text-transform:uppercase; font-size:12px; }
+.contact-value{ flex:1; font-size:15px; font-weight:700; }
+.contact-value a{ color:inherit; text-decoration:underline; }
+.contact-actions{ display:flex; gap:12px; justify-content:flex-start; }
+.contact-copy{ background:var(--accent); color:var(--surface-onaccent); padding:10px 14px; border:none; font-weight:900; cursor:pointer; }
+.contact-copy:active{ transform:translateY(1px); }
+
+/* Contact input-style field */
+.contact-field{ display:flex; gap:0; align-items:center; border:2px solid var(--black); background:var(--surface); padding:4px; border-radius:0; width:420px; }
+.contact-field-input{ flex:1; border:none; outline:none; background:transparent; font-weight:800; font-size:16px; padding:8px 12px; color:var(--text); border-radius:0; }
+.contact-field-input[readonly]{ cursor:text; }
+.contact-field-input:focus{ outline: none; }
+.contact-field-input:focus-visible{ box-shadow: 0 0 0 6px rgba(255,212,0,0.06); border-radius:0; }
+.contact-field-btn{ background:#ff8c00; color:var(--surface-onaccent); padding:8px 12px; border:none; font-weight:900; cursor:pointer; border-radius:0; border-left:4px solid var(--black); }
+.contact-field-btn:hover{ background:#ff7a00; }
+.contact-field-btn:active{ transform:translateY(1px); }
+.contact-field-btn:focus{ outline: none; box-shadow: 0 0 0 6px rgba(255,212,0,0.06); }
+.contact-info{ margin-top:10px; color:var(--muted); font-size:13px; }
+.contact-info-row{ margin-top:6px; }
+@media (max-width:720px){
+  .contact-label{ width:72px; font-size:11px; }
+  .contact-value{ font-size:14px; }
+}
+
 /* Make all neo theme cards sharp-edged and remove shadows globally */
 .card{
   border-radius: 0 !important;

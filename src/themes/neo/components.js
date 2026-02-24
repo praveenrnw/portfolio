@@ -274,27 +274,42 @@ export function renderContact(data) {
   const section = create('section', 'neo-contact');
   const h3 = create('h3');
   h3.textContent = 'Contact';
-  const card = create('div', 'card contact-card');
-  const email = create('div');
-  email.innerHTML = `<strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a>`;
-  const loc = create('div');
-  loc.innerHTML = `<strong>Location:</strong> ${data.location}`;
-  const copy = create('button', 'game-mode');
-  copy.type = 'button';
-  copy.textContent = 'Copy Email';
-  copy.addEventListener('click', async () => {
+
+  // Build a form-like input field with an attached copy button (no .card wrapper)
+  const fieldRow = create('div', 'contact-field');
+  const input = create('input', 'contact-field-input', { type: 'text', readonly: 'true' });
+  input.value = data.email || '';
+  input.setAttribute('aria-label', 'Email address');
+  const btn = create('button', 'contact-field-btn');
+  btn.type = 'button';
+  btn.textContent = 'Copy';
+  btn.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(data.email);
-      copy.textContent = 'Copied!';
-      setTimeout(() => (copy.textContent = 'Copy Email'), 1200);
+      await navigator.clipboard.writeText(input.value || '');
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = 'Copy'), 1200);
     } catch (e) {
       console.error('copy failed', e);
     }
   });
-  card.appendChild(email);
-  card.appendChild(loc);
-  card.appendChild(copy);
+  fieldRow.appendChild(input);
+  fieldRow.appendChild(btn);
+
+  // Optional supplemental info below the field
+  const infoWrap = create('div', 'contact-info');
+  if (data.location) {
+    const loc = create('div', 'contact-info-row');
+    loc.innerHTML = `<strong>Location:</strong> ${data.location}`;
+    infoWrap.appendChild(loc);
+  }
+  if (data.phone) {
+    const ph = create('div', 'contact-info-row');
+    ph.innerHTML = `<strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a>`;
+    infoWrap.appendChild(ph);
+  }
+
   section.appendChild(h3);
-  section.appendChild(card);
+  section.appendChild(fieldRow);
+  section.appendChild(infoWrap);
   return section;
 }
