@@ -27,6 +27,9 @@ body{
 .site-title{font-size:18px;font-weight:900;letter-spacing:1px}
 .theme-toggle{border:6px solid var(--black);background:var(--pink);color:var(--white);padding:10px 12px;font-weight:900;cursor:pointer}
 .theme-toggle:active{transform:scale(.98)}
+
+/* Floating game icon placed top-right, 'hanging' style */
+
 .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip-link:focus{left:18px;top:12px;width:auto;height:auto;padding:8px 12px;background:var(--black);color:var(--white);z-index:200}
 .site-footer{padding:24px 0;text-align:center;border-top:6px solid var(--black);margin-top:40px}
