@@ -37,12 +37,11 @@ export function renderSections(container, components, data) {
   const order = [
     // pass the full data so renderHero can merge About text into the hero
     { fn: 'renderHero', data },
-    // terminal card (right) with full experience details
-    { fn: 'renderTerminal', data: data.experience },
+    // terminal card (left) with full experience and skills details
+    { fn: 'renderTerminal', data },
     // compact experience section (role + company only)
     { fn: 'renderExperience', data: data.experience },
     { fn: 'renderProjects', data: data.projects },
-    { fn: 'renderSkills', data: data.skills },
     { fn: 'renderContact', data: data.contact }
   ];
 
