@@ -44,23 +44,23 @@ body{
 /* profile placed near the hero deco */
 .neo-hero{position:relative}
 .hero-profile{
-  /* match deco size and rotation so profile aligns with the blue block */
+  /* place profile on the left and make it larger */
   position:absolute;
-  right:-12px;
+  left:-12px;
   top:-12px;
-  width:150px;
-  height:150px;
+  width:220px;
+  height:220px;
   object-fit:cover;
   border:6px solid var(--black);
   box-shadow:8px 8px 0 0 var(--black);
   border-radius:6px;
-  transform:rotate(6deg);
+  transform:rotate(-6deg);
   background:var(--white);
   z-index:30;
 }
 
 @media(min-width:720px){
-  .hero-profile{width:150px;height:150px;right:-12px;top:-12px}
+  .hero-profile{width:220px;height:220px;left:-12px;top:-12px}
 }
 
 /* header branding */
@@ -76,7 +76,7 @@ body{
   display:inline-block;
 }
 
-.hero-box{display:flex;flex-direction:column;gap:8px;padding-right:180px}
+.hero-box{display:flex;flex-direction:column;gap:8px;padding-left:260px}
 .hero-name{font-size:clamp(26px,6vw,48px);margin:0}
 .hero-title{font-weight:700;margin:0;color:var(--blue)}
 .hero-tagline{margin:6px 0 0}
@@ -146,9 +146,9 @@ section{margin:18px 0}
 .neo-hero.hero-skeuo{background:linear-gradient(180deg, #f6f3ee 0%, #efe9dc 100%);padding:32px;border-radius:12px}
 .neo-hero.hero-skeuo .box{background:linear-gradient(180deg,#fff 0%, #fbf8f2 100%);border:8px solid rgba(0,0,0,0.85);box-shadow:14px 14px 0 0 rgba(0,0,0,0.85);padding:28px;position:relative}
 .neo-hero.hero-skeuo .paper-title{font-size:clamp(64px,10vw,140px);font-weight:900;color:#111;opacity:0.08;letter-spacing:-4px;position:absolute;left:18px;top:18px;pointer-events:none}
-.neo-hero.hero-skeuo .hero-grid{display:grid;grid-template-columns:1fr 260px;gap:18px;align-items:start}
+.neo-hero.hero-skeuo .hero-grid{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
 .neo-hero.hero-skeuo .hero-content{position:relative;z-index:5}
-.neo-hero.hero-skeuo .hero-profile{position:relative;right:0;top:0;width:220px;height:220px;border-radius:12px;transform:rotate(0);box-shadow:18px 18px 0 0 rgba(0,0,0,0.85)}
+.neo-hero.hero-skeuo .hero-profile{position:relative;left:0;top:0;width:220px;height:220px;border-radius:12px;transform:rotate(0);box-shadow:18px 18px 0 0 rgba(0,0,0,0.85)}
 .neo-hero.hero-skeuo .hero-name{font-size:clamp(28px,5vw,48px);color:#111}
 .neo-hero.hero-skeuo .hero-title{color:#333;margin-bottom:8px}
 .neo-hero.hero-skeuo .hero-ctas{margin-top:16px}
