@@ -7,19 +7,20 @@ const create = (tag, cls, attrs = {}) => {
 
 export function renderHero(data) {
   const section = create('section', 'neo-hero');
-  const deco = create('div', 'hero-deco');
-  const profile = create('img', 'hero-profile', { src: './assets/profile-a.jpg', alt: `${data.name} — portrait` });
+  // `data` may be the full portfolio object; prefer hero sub-object if present
+  const hero = (data && data.hero) ? data.hero : data || {};
+  const profile = create('img', 'hero-profile', { src: './assets/profile-a.jpg', alt: `${hero.name} — portrait` });
   profile.dataset.altSrc = './assets/profile-b.jpg';
 
   // Apply skeuomorphic variant if requested
   if (data && data.variant === 'skeuo') section.classList.add('hero-skeuo');
 
   const h1 = create('h1', 'hero-name');
-  h1.textContent = data.name;
+  h1.textContent = hero.name || '';
   const h2 = create('h2', 'hero-title');
-  h2.textContent = data.title;
+  h2.textContent = hero.title || '';
   const p = create('p', 'hero-tagline');
-  p.textContent = data.tagline;
+  p.textContent = hero.tagline || '';
 
   const meta = create('div', 'hero-meta');
   const accent = create('span', 'accent-block');
@@ -35,6 +36,18 @@ export function renderHero(data) {
   content.appendChild(p);
   content.appendChild(meta);
 
+  // Merge About description into hero content (remove separate About tile)
+  try {
+    const aboutText = (data && data.about && data.about.description) ? data.about.description : '';
+    if (aboutText) {
+      const aboutP = create('p', 'hero-about');
+      aboutP.textContent = aboutText;
+      content.appendChild(aboutP);
+    }
+  } catch (e) {
+    /* ignore */
+  }
+
   // CTAs removed per layout change
 
   // TOC chips removed from hero
@@ -45,7 +58,6 @@ export function renderHero(data) {
   grid.appendChild(content);
 
   section.appendChild(grid);
-  section.appendChild(deco);
 
   // hover swap for desktop
   profile.addEventListener('mouseenter', () => {
