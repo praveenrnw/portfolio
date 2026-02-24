@@ -7,7 +7,6 @@ const create = (tag, cls, attrs = {}) => {
 
 export function renderHero(data) {
   const section = create('section', 'neo-hero');
-  const box = create('div', 'box hero-box');
   const deco = create('div', 'hero-deco');
   const profile = create('img', 'hero-profile', { src: './assets/profile-a.jpg', alt: `${data.name} — portrait` });
   profile.dataset.altSrc = './assets/profile-b.jpg';
@@ -36,39 +35,16 @@ export function renderHero(data) {
   content.appendChild(p);
   content.appendChild(meta);
 
-  // CTAs
-  const ctas = create('div', 'hero-ctas');
-  const resume = create('a', 'btn');
-  resume.href = './resume.pdf';
-  resume.textContent = 'Resume';
-  const projects = create('a', 'btn secondary');
-  projects.href = '#projects';
-  projects.textContent = 'Projects';
-  ctas.appendChild(resume);
-  ctas.appendChild(projects);
-  content.appendChild(ctas);
+  // CTAs removed per layout change
 
-  // TOC chips for skeuo variant
-  if (data && data.variant === 'skeuo') {
-    const paperTitle = create('div', 'paper-title');
-    paperTitle.classList.add('paper-title');
-    paperTitle.textContent = 'PORTFOLIO.';
-    box.appendChild(paperTitle);
-    const toc = create('div', 'toc-chips');
-    ['Apps','Games','VR'].forEach((t) => {
-      const chip = create('div', 'toc-chip');
-      chip.textContent = t;
-      toc.appendChild(chip);
-    });
-    content.appendChild(toc);
-  }
+  // TOC chips removed from hero
 
   profileWrap.appendChild(profile);
-  grid.appendChild(content);
+  // place profile on the left, content on the right
   grid.appendChild(profileWrap);
+  grid.appendChild(content);
 
-  box.appendChild(grid);
-  section.appendChild(box);
+  section.appendChild(grid);
   section.appendChild(deco);
 
   // hover swap for desktop
