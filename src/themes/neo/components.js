@@ -229,6 +229,38 @@ export function renderTerminal(data) {
     node.classList.add(`tech-${key}`);
     node.textContent = s;
     node.setAttribute('title', s);
+    node.style.cursor = 'pointer';
+
+    // Blast animation on click
+    node.addEventListener('click', () => {
+      if (node.classList.contains('skill-blasting')) return;
+      // Spawn burst particles
+      const rect = node.getBoundingClientRect();
+      const container = skillsWrap.getBoundingClientRect();
+      const cx = rect.left - container.left + rect.width / 2;
+      const cy = rect.top - container.top + rect.height / 2;
+      const colors = ['#FF0055', '#00C2FF', '#FFD60A', '#ff6b6b', '#00ff88'];
+      for (let i = 0; i < 12; i++) {
+        const p = create('span', 'skill-particle');
+        const angle = (Math.PI * 2 / 12) * i;
+        const dist = 40 + Math.random() * 30;
+        p.style.left = cx + 'px';
+        p.style.top = cy + 'px';
+        p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+        p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+        p.style.background = colors[i % colors.length];
+        skillsWrap.appendChild(p);
+        setTimeout(() => p.remove(), 600);
+      }
+      // Hide node, then re-appear
+      node.classList.add('skill-blasting');
+      setTimeout(() => {
+        node.classList.remove('skill-blasting');
+        node.classList.add('skill-reappear');
+        setTimeout(() => node.classList.remove('skill-reappear'), 400);
+      }, 700);
+    });
+
     skillsWrap.appendChild(node);
   });
 
