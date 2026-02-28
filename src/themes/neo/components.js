@@ -70,6 +70,13 @@ export function renderHero(data) {
 
   section.appendChild(grid);
 
+  // Orbiting icon around profile
+  const orbitWrap = create('div', 'profile-orbit-wrap');
+  const orbitIcon = create('span', 'profile-orbit-icon');
+  orbitIcon.textContent = '⚡';
+  orbitWrap.appendChild(orbitIcon);
+  profileWrap.appendChild(orbitWrap);
+
   // hover swap for desktop
   profile.addEventListener('mouseenter', () => {
     profile.dataset.prev = profile.src;
@@ -79,17 +86,12 @@ export function renderHero(data) {
     if (profile.dataset.prev) profile.src = profile.dataset.prev;
   });
 
-  // touch behavior: swap briefly on tap
-  let touchTimer = null;
+  // mobile tap: toggle between profile-a and profile-b
+  let showingAlt = false;
   profile.addEventListener('touchstart', (e) => {
     e.preventDefault();
-    if (touchTimer) clearTimeout(touchTimer);
-    profile.dataset.prev = profile.src;
-    profile.src = profile.dataset.altSrc;
-    touchTimer = setTimeout(() => {
-      profile.src = profile.dataset.prev || profile.src;
-      touchTimer = null;
-    }, 1200);
+    showingAlt = !showingAlt;
+    profile.src = showingAlt ? './assets/profile-b.jpg' : './assets/profile-a.jpg';
   });
 
   return section;

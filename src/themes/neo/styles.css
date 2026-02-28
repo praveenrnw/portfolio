@@ -256,7 +256,21 @@ body::after{
 /* grid layout for hero: profile left, content right */
 .hero-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center;position:relative}
 .hero-content{padding:8px 0}
-.hero-profile-wrap{display:flex;align-items:center;justify-content:center}
+.hero-profile-wrap{display:flex;align-items:center;justify-content:center;position:relative}
+
+/* orbit animation around profile */
+.profile-orbit-wrap{
+  position:absolute; inset:0; pointer-events:none;
+  animation: profileOrbit 4s linear infinite;
+}
+.profile-orbit-icon{
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  font-size:22px; filter:drop-shadow(0 0 6px rgba(255,215,0,0.7));
+}
+@keyframes profileOrbit{
+  0%{ transform:rotate(0deg); }
+  100%{ transform:rotate(360deg); }
+}
 
 @media(min-width:720px){
   .hero-profile{width:220px;height:220px;left:0;top:0}
