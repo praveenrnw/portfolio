@@ -405,43 +405,69 @@ export function renderSkills(items) {
 export function renderContact(data) {
   const section = create('section', 'neo-contact');
   const h3 = create('h3');
-  h3.textContent = 'Contact';
+  h3.textContent = 'Get In Touch';
 
-  // Build a form-like input field with an attached copy button (no .card wrapper)
-  const fieldRow = create('div', 'contact-field');
-  const input = create('input', 'contact-field-input', { type: 'text', readonly: 'true' });
-  input.value = data.email || '';
-  input.setAttribute('aria-label', 'Email address');
-  const btn = create('button', 'contact-field-btn');
-  btn.type = 'button';
-  btn.textContent = 'Copy';
-  btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(input.value || '');
-      btn.textContent = 'Copied!';
-      setTimeout(() => (btn.textContent = 'Copy'), 1200);
-    } catch (e) {
-      console.error('copy failed', e);
-    }
-  });
-  fieldRow.appendChild(input);
-  fieldRow.appendChild(btn);
+  const card = create('div', 'contact-card');
 
-  // Optional supplemental info below the field
-  const infoWrap = create('div', 'contact-info');
+  // envelope icon header
+  const iconWrap = create('div', 'contact-icon');
+  iconWrap.innerHTML = `<svg viewBox="0 0 64 44" width="52" height="36" aria-hidden="true">
+    <rect x="2" y="2" width="60" height="40" rx="4" fill="none" stroke="var(--black)" stroke-width="4"/>
+    <path d="M2 2 L32 24 L62 2" fill="none" stroke="var(--black)" stroke-width="4" stroke-linejoin="round"/>
+  </svg>`;
+  card.appendChild(iconWrap);
+
+  // email row
+  const emailRow = create('div', 'contact-row');
+  const emailLabel = create('span', 'contact-label');
+  emailLabel.textContent = '✉ Email';
+  const emailVal = create('span', 'contact-value');
+  const emailLink = create('a', '', { href: `mailto:${data.email || ''}` });
+  emailLink.textContent = data.email || '';
+  emailVal.appendChild(emailLink);
+  emailRow.appendChild(emailLabel);
+  emailRow.appendChild(emailVal);
+  card.appendChild(emailRow);
+
+  // location row
   if (data.location) {
-    const loc = create('div', 'contact-info-row');
-    loc.innerHTML = `<strong>Location:</strong> ${data.location}`;
-    infoWrap.appendChild(loc);
+    const locRow = create('div', 'contact-row');
+    const locLabel = create('span', 'contact-label');
+    locLabel.textContent = '📍 Location';
+    const locVal = create('span', 'contact-value');
+    locVal.textContent = data.location;
+    locRow.appendChild(locLabel);
+    locRow.appendChild(locVal);
+    card.appendChild(locRow);
   }
-  if (data.phone) {
-    const ph = create('div', 'contact-info-row');
-    ph.innerHTML = `<strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a>`;
-    infoWrap.appendChild(ph);
-  }
+
+  // divider
+  const divider = create('hr', 'contact-divider');
+  card.appendChild(divider);
+
+  // actions row: Copy email + mailto
+  const actions = create('div', 'contact-actions');
+  const copyBtn = create('button', 'contact-btn contact-btn--copy');
+  copyBtn.type = 'button';
+  copyBtn.textContent = '📋 Copy Email';
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(data.email || '');
+      copyBtn.textContent = '✅ Copied!';
+      copyBtn.classList.add('contact-btn--success');
+      setTimeout(() => {
+        copyBtn.textContent = '📋 Copy Email';
+        copyBtn.classList.remove('contact-btn--success');
+      }, 1500);
+    } catch (e) { console.error('copy failed', e); }
+  });
+  const sendBtn = create('a', 'contact-btn contact-btn--send', { href: `mailto:${data.email || ''}` });
+  sendBtn.textContent = '🚀 Say Hello';
+  actions.appendChild(copyBtn);
+  actions.appendChild(sendBtn);
+  card.appendChild(actions);
 
   section.appendChild(h3);
-  section.appendChild(fieldRow);
-  section.appendChild(infoWrap);
+  section.appendChild(card);
   return section;
 }

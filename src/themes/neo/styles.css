@@ -79,36 +79,34 @@
 .neo-projects .projects-scroll,
 .neo-projects .project-card-horizontal{ z-index: 1; position: relative; }
 
-/* Contact section refinements */
-.neo-contact{ padding: 18px 6px 28px; }
-.neo-contact h3{ font-size:18px; font-weight:900; text-transform:uppercase; margin-bottom:12px; }
-.contact-card{ display:flex; flex-direction:column; gap:12px; padding:18px; background:var(--surface); border:8px solid var(--black); }
+/* Contact section */
+.neo-contact{ padding: 24px 6px 36px; }
+.neo-contact h3{ font-size:22px; font-weight:900; text-transform:uppercase; margin-bottom:16px; letter-spacing:1px; }
+.contact-card{ display:flex; flex-direction:column; gap:16px; padding:24px; background:var(--surface); border:8px solid var(--black); box-shadow:8px 8px 0 var(--black); max-width:480px; }
+.contact-icon{ text-align:center; margin-bottom:4px; }
+.contact-icon svg{ display:inline-block; }
 .contact-row{ display:flex; gap:12px; align-items:center; }
-.contact-label{ width:90px; font-weight:900; color:var(--muted); text-transform:uppercase; font-size:12px; }
-.contact-value{ flex:1; font-size:15px; font-weight:700; }
-.contact-value a{ color:inherit; text-decoration:underline; }
-.contact-actions{ display:flex; gap:12px; justify-content:flex-start; }
-.contact-copy{ background:var(--accent); color:var(--surface-onaccent); padding:10px 14px; border:none; font-weight:900; cursor:pointer; }
-.contact-copy:active{ transform:translateY(1px); }
-
-/* Contact input-style field */
-.contact-field{ display:flex; gap:0; align-items:center; border:2px solid var(--black); background:var(--surface); padding:4px; border-radius:0; width:420px; }
-.contact-field-input{ flex:1; border:none; outline:none; background:transparent; font-weight:800; font-size:16px; padding:8px 12px; color:var(--text); border-radius:0; }
-.contact-field-input[readonly]{ cursor:text; }
-.contact-field-input:focus{ outline: none; }
-.contact-field-input:focus-visible{ box-shadow: 0 0 0 6px rgba(255,212,0,0.06); border-radius:0; }
-.contact-field-btn{ background:#ff8c00; color:var(--surface-onaccent); padding:8px 12px; border:none; font-weight:900; cursor:pointer; border-radius:0; border-left:4px solid var(--black); }
-.contact-field-btn:hover{ background:#ff7a00; }
-.contact-field-btn:active{ transform:translateY(1px); }
-.contact-field-btn:focus{ outline: none; box-shadow: 0 0 0 6px rgba(255,212,0,0.06); }
-.contact-info{ margin-top:10px; color:var(--muted); font-size:13px; }
-.contact-info-row{ margin-top:6px; }
+.contact-label{ width:100px; font-weight:900; color:var(--muted); text-transform:uppercase; font-size:12px; letter-spacing:0.5px; flex-shrink:0; }
+.contact-value{ flex:1; font-size:15px; font-weight:700; word-break:break-all; }
+.contact-value a{ color:inherit; text-decoration:underline; text-underline-offset:3px; }
+.contact-value a:hover{ color:var(--accent); }
+.contact-divider{ border:none; border-top:4px solid var(--black); margin:0; }
+.contact-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+.contact-btn{ display:inline-block; padding:12px 18px; border:4px solid var(--black); font-weight:900; font-size:14px; cursor:pointer; text-decoration:none; text-align:center; transition:transform 0.1s, box-shadow 0.1s; background:var(--surface); color:var(--text); }
+.contact-btn:hover{ transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--black); }
+.contact-btn:active{ transform:translate(0,0); box-shadow:none; }
+.contact-btn--copy{ background:#FFD60A; color:#000; }
+.contact-btn--send{ background:#FF0055; color:#fff; }
+.contact-btn--success{ background:#00C853; color:#fff; }
 
 /* Add space between hero and terminal sections */
 .neo-hero { margin-bottom: 48px; }
 @media (max-width:720px){
+  .contact-card{ max-width:100%; }
   .contact-label{ width:72px; font-size:11px; }
   .contact-value{ font-size:14px; }
+  .contact-actions{ flex-direction:column; }
+  .contact-btn{ width:100%; }
 }
 
 /* Make all neo theme cards sharp-edged and remove shadows globally */
