@@ -155,6 +155,11 @@ export function renderTerminal(data) {
   const body = create('div', 'terminal-body');
   // render full experience details inside the terminal
   const experiences = (data && data.experience) ? data.experience : data;
+
+  // Build a minimised summary (company names only)
+  const miniBody = create('div', 'terminal-body terminal-mini-body');
+  miniBody.style.display = 'none';
+
   experiences.forEach((it) => {
     const entry = create('div', 'term-entry');
     const title = create('div', 'term-title');
@@ -168,9 +173,47 @@ export function renderTerminal(data) {
     });
     entry.appendChild(pts);
     body.appendChild(entry);
+
+    // mini version: just company + role
+    const miniEntry = create('div', 'term-entry term-entry-mini');
+    const miniTitle = create('div', 'term-title');
+    miniTitle.textContent = `${it.role} — ${it.company}`;
+    miniEntry.appendChild(miniTitle);
+    miniBody.appendChild(miniEntry);
   });
 
   card.appendChild(body);
+  card.appendChild(miniBody);
+
+  // Minimize: toggle between full body and compact company-only view
+  let minimized = false;
+  btnMin.style.cursor = 'pointer';
+  btnMin.addEventListener('click', () => {
+    minimized = !minimized;
+    if (minimized) {
+      body.style.display = 'none';
+      miniBody.style.display = 'block';
+      card.classList.add('terminal-minimized');
+      btnMin.textContent = '+';
+    } else {
+      body.style.display = '';
+      miniBody.style.display = 'none';
+      card.classList.remove('terminal-minimized');
+      btnMin.textContent = '-';
+    }
+  });
+
+  // Close: shrink away then re-pop after 1 second
+  btnClose.style.cursor = 'pointer';
+  btnClose.addEventListener('click', () => {
+    card.classList.add('terminal-closing');
+    setTimeout(() => {
+      card.classList.remove('terminal-closing');
+      card.classList.add('terminal-popping');
+      setTimeout(() => card.classList.remove('terminal-popping'), 400);
+    }, 1000);
+  });
+
   leftWrap.appendChild(card);
 
   // Skills tiles (right) — positioned randomly
