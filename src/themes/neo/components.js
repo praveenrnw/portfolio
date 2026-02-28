@@ -282,38 +282,44 @@ export function renderProjects(items) {
   h3.textContent = 'Projects';
   section.appendChild(h3);
 
+  // Anime-style SVG avatars per tech category
+  const animeAvatars = {
+    flutter: `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="30" r="20" fill="#35c0ff"/><circle cx="40" cy="30" r="18" fill="#e8f4fd"/><circle cx="34" cy="26" r="5" fill="#222"/><circle cx="46" cy="26" r="5" fill="#222"/><circle cx="35" cy="25" r="2" fill="#fff"/><circle cx="47" cy="25" r="2" fill="#fff"/><path d="M34 36 Q40 42 46 36" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 14 Q30 4 40 10" stroke="#35c0ff" stroke-width="3" fill="none"/><path d="M60 14 Q50 4 40 10" stroke="#35c0ff" stroke-width="3" fill="none"/><rect x="22" y="52" width="36" height="24" rx="6" fill="#35c0ff"/><path d="M30 52 L30 70" stroke="#e8f4fd" stroke-width="2"/></svg>`,
+    unity: `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="30" r="20" fill="#333"/><circle cx="40" cy="30" r="18" fill="#f0f0f0"/><circle cx="34" cy="26" r="5" fill="#222"/><circle cx="46" cy="26" r="5" fill="#222"/><circle cx="35" cy="25" r="2" fill="#fff"/><circle cx="47" cy="25" r="2" fill="#fff"/><path d="M36 36 L44 36" stroke="#222" stroke-width="2" stroke-linecap="round"/><path d="M18 18 L26 10" stroke="#333" stroke-width="3" stroke-linecap="round"/><path d="M62 18 L54 10" stroke="#333" stroke-width="3" stroke-linecap="round"/><rect x="22" y="52" width="36" height="24" rx="6" fill="#222"/><path d="M34 60 L40 56 L46 60 L40 64 Z" fill="#fff" opacity="0.6"/></svg>`,
+    javascript: `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="30" r="20" fill="#f7df1e"/><circle cx="40" cy="30" r="18" fill="#fffbe6"/><circle cx="34" cy="26" r="5" fill="#222"/><circle cx="46" cy="26" r="5" fill="#222"/><circle cx="35" cy="25" r="2" fill="#fff"/><circle cx="47" cy="25" r="2" fill="#fff"/><path d="M34 36 Q40 44 46 36" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="26" y="8" width="28" height="10" rx="4" fill="#f7df1e"/><text x="40" y="16" text-anchor="middle" font-size="8" font-weight="900" fill="#222">JS</text><rect x="22" y="52" width="36" height="24" rx="6" fill="#f7df1e"/></svg>`,
+    default: `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="30" r="20" fill="#FF0055"/><circle cx="40" cy="30" r="18" fill="#ffe0eb"/><circle cx="34" cy="26" r="5" fill="#222"/><circle cx="46" cy="26" r="5" fill="#222"/><circle cx="35" cy="25" r="2" fill="#fff"/><circle cx="47" cy="25" r="2" fill="#fff"/><path d="M35 36 Q40 41 45 36" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="22" y="52" width="36" height="24" rx="6" fill="#FF0055"/></svg>`,
+  };
+
+  function getAvatar(tech) {
+    if (!tech || !tech.length) return animeAvatars.default;
+    const k = tech[0].toLowerCase();
+    if (k.includes('flutter') || k.includes('dart')) return animeAvatars.flutter;
+    if (k.includes('unity') || k.includes('c#')) return animeAvatars.unity;
+    if (k.includes('javascript') || k.includes('html') || k.includes('canvas')) return animeAvatars.javascript;
+    return animeAvatars.default;
+  }
+
   // horizontally scrollable projects row
   const scroll = create('div', 'projects-scroll');
   items.forEach((p) => {
-    const card = create('article', 'project-card card project-card-horizontal');
+    const card = create('article', 'project-card card project-card-horizontal project-card-3d');
 
-    // avatar (project-specific image or initials)
+    // anime avatar
     const avatarWrap = create('div', 'project-avatar-wrap');
     const avatar = create('div', 'project-avatar');
-    if (p.image) {
-      const img = create('img');
-      img.src = p.image;
-      img.alt = p.name;
-      avatar.appendChild(img);
-    } else {
-      const initials = p.name.split(' ').map((w) => w[0]).join('').slice(0,2).toUpperCase();
-      avatar.textContent = initials;
-    }
-    // color the avatar by the first tech if present
+    avatar.innerHTML = getAvatar(p.tech);
     if (p.tech && p.tech.length) {
       const key = p.tech[0].toLowerCase().replace(/[^a-z0-9]+/g, '');
       avatar.classList.add(`tech-${key}`);
     }
     avatarWrap.appendChild(avatar);
-    card.appendChild(avatarWrap);
 
-    // details
+    // card body (grows to push footer down)
+    const cardBody = create('div', 'project-card-body');
     const title = create('strong', 'project-title');
     title.textContent = p.name;
     const desc = create('p', 'project-desc');
     desc.textContent = p.description;
-    card.appendChild(title);
-    card.appendChild(desc);
 
     // language / tech badges
     const techWrap = create('div', 'project-techs');
@@ -324,9 +330,15 @@ export function renderProjects(items) {
       b.textContent = t;
       techWrap.appendChild(b);
     });
-    card.appendChild(techWrap);
 
-    // render project links (demo / repo)
+    cardBody.appendChild(avatarWrap);
+    cardBody.appendChild(title);
+    cardBody.appendChild(desc);
+    cardBody.appendChild(techWrap);
+    card.appendChild(cardBody);
+
+    // card footer pinned to bottom
+    const cardFooter = create('div', 'project-card-footer');
     if (p.links) {
       const linkWrap = create('div', 'project-links');
       if (p.links.demo) {
@@ -345,14 +357,24 @@ export function renderProjects(items) {
         a.textContent = '⌂ Repo';
         linkWrap.appendChild(a);
       }
-      card.appendChild(linkWrap);
+      cardFooter.appendChild(linkWrap);
     }
-
-    // view more button attached to bottom
     const view = create('a', 'project-btn');
     view.href = p.url || '#projects';
     view.textContent = 'View More';
-    card.appendChild(view);
+    cardFooter.appendChild(view);
+    card.appendChild(cardFooter);
+
+    // 3D tilt on mouse move
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
 
     scroll.appendChild(card);
   });
