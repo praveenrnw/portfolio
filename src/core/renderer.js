@@ -41,7 +41,6 @@ export function renderSections(container, components, data) {
     { fn: 'renderTerminal', data },
     // Note: experience section is intentionally omitted (rendered inside terminal)
     { fn: 'renderProjects', data: data.projects },
-    { fn: 'renderArcade', data: null },
     { fn: 'renderContact', data: data.contact }
   ];
 
