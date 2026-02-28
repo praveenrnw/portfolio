@@ -165,35 +165,53 @@ body::after{
 
 /* Page layout */
 .container{max-width:1100px;margin:0 auto;padding:0 18px}
-.site-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.site-header{padding:12px 0}
+.site-header .container{display:flex;align-items:center;justify-content:flex-end}
 .site-title{font-size:18px;font-weight:900;letter-spacing:1px}
 .theme-toggle{border:6px solid var(--black);background:var(--pink);color:var(--white);padding:10px 12px;font-weight:900;cursor:pointer}
 .theme-toggle:active{transform:scale(.98)}
 
-/* Game icon buttons in header top-right */
+/* Game icon buttons — pinned top-right */
 .header-games{
   display:flex;
-  gap:8px;
+  gap:10px;
   align-items:center;
+  margin-left:auto;
 }
 .game-icon{
-  background:none;
+  background:var(--surface, #FDF6E3);
   border:3px solid var(--black);
-  border-radius:6px;
-  padding:4px;
+  border-radius:8px;
+  padding:5px 6px;
   cursor:pointer;
-  transition:transform 200ms cubic-bezier(.2,.8,.2,1), box-shadow 200ms;
+  transition:transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms, background 180ms;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:var(--surface, #FDF6E3);
+  position:relative;
 }
+.game-icon::after{
+  content:attr(data-label);
+  position:absolute;
+  bottom:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity 180ms;
+  pointer-events:none;
+  color:var(--text, #000);
+}
+.game-icon:hover::after{opacity:1}
 .game-icon:hover{
-  transform:scale(1.15) rotate(-3deg);
+  transform:translateY(-3px) scale(1.1);
   box-shadow:3px 3px 0 var(--black);
 }
 .game-icon:active{
-  transform:scale(0.95);
+  transform:translateY(0) scale(0.95);
   box-shadow:none;
 }
 
@@ -224,24 +242,10 @@ body::after{
 /* decorative accents for neo brutalism */
 .accent-block{width:44px;height:20px;background:var(--pink);display:inline-block;margin-left:8px}
 
-/* Animals running from the red accent block */
+/* Accent block tap-to-nudge */
 .hero-meta{position:relative;overflow:visible}
-.animal-runway{position:absolute;left:60px;top:0;height:24px;width:calc(100vw - 120px);overflow:hidden;pointer-events:none}
-.running-animal{
-  position:absolute;left:-30px;top:0;
-  font-size:20px;
-  opacity:0;
-  animation:animalRun 4s ease-in-out infinite;
-}
-@keyframes animalRun{
-  0%  {left:-30px;opacity:0;transform:scaleX(1)}
-  8%  {opacity:1}
-  70% {opacity:1;transform:scaleX(1)}
-  100%{left:100%;opacity:0;transform:scaleX(1.1)}
-}
-@media(prefers-reduced-motion:reduce){
-  .running-animal{animation:none;display:none}
-}
+.accent-block{transition:transform 0.4s cubic-bezier(.2,.8,.2,1)}
+.accent-nudge{transform:translateX(60px)}
 
 /* profile placed near the hero deco */
 .neo-hero{position:relative}
@@ -266,19 +270,7 @@ body::after{
 .hero-content{padding:8px 0}
 .hero-profile-wrap{display:flex;align-items:center;justify-content:center;position:relative}
 
-/* orbit animation around profile */
-.profile-orbit-wrap{
-  position:absolute; inset:0; pointer-events:none;
-  animation: profileOrbit 4s linear infinite;
-}
-.profile-orbit-icon{
-  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
-  font-size:22px; filter:drop-shadow(0 0 6px rgba(255,215,0,0.7));
-}
-@keyframes profileOrbit{
-  0%{ transform:rotate(0deg); }
-  100%{ transform:rotate(360deg); }
-}
+
 
 @media(min-width:720px){
   .hero-profile{width:220px;height:220px;left:0;top:0}

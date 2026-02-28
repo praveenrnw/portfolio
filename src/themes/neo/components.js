@@ -24,18 +24,13 @@ export function renderHero(data) {
 
   const meta = create('div', 'hero-meta');
   const accent = create('span', 'accent-block');
-  meta.appendChild(accent);
-
-  // Animated animals running away from the red accent block
-  const animals = ['🐇', '🦊', '🐈', '🐕', '🐿️'];
-  const runway = create('div', 'animal-runway');
-  animals.forEach((emoji, i) => {
-    const a = create('span', 'running-animal');
-    a.textContent = emoji;
-    a.style.animationDelay = `${i * 1.8}s`;
-    runway.appendChild(a);
+  // Tap the accent block to nudge it right
+  accent.addEventListener('click', () => {
+    accent.classList.add('accent-nudge');
+    setTimeout(() => accent.classList.remove('accent-nudge'), 500);
   });
-  meta.appendChild(runway);
+  accent.style.cursor = 'pointer';
+  meta.appendChild(accent);
 
   // Build hero layout
   const grid = create('div', 'hero-grid');
@@ -69,13 +64,6 @@ export function renderHero(data) {
   grid.appendChild(content);
 
   section.appendChild(grid);
-
-  // Orbiting icon around profile
-  const orbitWrap = create('div', 'profile-orbit-wrap');
-  const orbitIcon = create('span', 'profile-orbit-icon');
-  orbitIcon.textContent = '⚡';
-  orbitWrap.appendChild(orbitIcon);
-  profileWrap.appendChild(orbitWrap);
 
   // hover swap for desktop
   profile.addEventListener('mouseenter', () => {
