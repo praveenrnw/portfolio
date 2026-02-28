@@ -165,6 +165,38 @@ body::after{
 .theme-toggle:active{transform:scale(.98)}
 
 /* Floating game icon placed top-right, 'hanging' style */
+.header-arcade-trigger{
+  cursor:pointer;
+  transition:transform 200ms cubic-bezier(.2,.8,.2,1);
+  display:flex;
+  align-items:center;
+}
+.header-arcade-trigger:hover{
+  transform:scale(1.12) rotate(-3deg);
+}
+.header-arcade-trigger:active{
+  transform:scale(0.95);
+}
+.arcade-machine-icon{
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+}
+
+/* Arcade full-screen overlay */
+.arcade-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,0.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  animation:arcadeFadeIn 300ms ease-out;
+}
+@keyframes arcadeFadeIn{from{opacity:0}to{opacity:1}}
+.arcade-overlay-close{
+  position:absolute;top:18px;right:18px;
+  background:#e94560;color:#fff;border:3px solid #000;
+  padding:8px 16px;font-weight:900;cursor:pointer;z-index:10001;
+  font-family:inherit;
+}
+.arcade-overlay-close:hover{background:#ff2255}
+.arcade-overlay-host{display:flex;align-items:center;justify-content:center}
 
 .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip-link:focus{left:18px;top:12px;width:auto;height:auto;padding:8px 12px;background:var(--black);color:var(--white);z-index:200}

@@ -19,7 +19,7 @@ const COLS   = 19;
 const ROWS   = 21;
 const W      = COLS * TILE;
 const H      = ROWS * TILE;
-const FPS    = 10;        // retro feel — 10 updates / sec
+const FPS    = 7;         // neutral retro speed
 const DOT_R  = 2;
 const POWER_R = 5;
 

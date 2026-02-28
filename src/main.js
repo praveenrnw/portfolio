@@ -24,6 +24,40 @@ async function boot() {
 
   // wire header theme toggle
   const toggle = document.getElementById('theme-toggle');
+
+  // wire arcade trigger in header
+  const arcadeTrigger = document.getElementById('arcade-trigger');
+  if (arcadeTrigger) {
+    let arcadeOverlay = null;
+    let arcadeStop = null;
+    arcadeTrigger.addEventListener('click', async () => {
+      if (arcadeOverlay) {
+        if (arcadeStop) arcadeStop();
+        arcadeOverlay.remove();
+        arcadeOverlay = null;
+        arcadeStop = null;
+        return;
+      }
+      arcadeOverlay = document.createElement('div');
+      arcadeOverlay.className = 'arcade-overlay';
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'arcade-overlay-close';
+      closeBtn.textContent = '\u2716 Close';
+      closeBtn.addEventListener('click', () => {
+        if (arcadeStop) arcadeStop();
+        arcadeOverlay.remove();
+        arcadeOverlay = null;
+        arcadeStop = null;
+      });
+      const host = document.createElement('div');
+      host.className = 'arcade-overlay-host';
+      arcadeOverlay.appendChild(closeBtn);
+      arcadeOverlay.appendChild(host);
+      document.body.appendChild(arcadeOverlay);
+      const mod = await import('./games/retroPacman.js');
+      arcadeStop = mod.mountArcade(host);
+    });
+  }
   if (toggle) {
     toggle.addEventListener('click', async (e) => {
       const btn = e.currentTarget;
