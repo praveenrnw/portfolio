@@ -25,39 +25,47 @@ async function boot() {
   // wire header theme toggle
   const toggle = document.getElementById('theme-toggle');
 
-  // wire arcade trigger in header
-  const arcadeTrigger = document.getElementById('arcade-trigger');
-  if (arcadeTrigger) {
-    let arcadeOverlay = null;
-    let arcadeStop = null;
-    arcadeTrigger.addEventListener('click', async () => {
-      if (arcadeOverlay) {
-        if (arcadeStop) arcadeStop();
-        arcadeOverlay.remove();
-        arcadeOverlay = null;
-        arcadeStop = null;
+  // wire game icons in header — each opens its game in a full-screen overlay
+  const games = [
+    { id: 'game-pacman', module: './games/retroPacman.js' },
+    { id: 'game-snake',  module: './games/retroSnake.js' },
+    { id: 'game-space',  module: './games/retroSpaceShooter.js' },
+  ];
+
+  games.forEach(({ id, module: modPath }) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    let overlay = null;
+    let stopFn = null;
+
+    btn.addEventListener('click', async () => {
+      if (overlay) {
+        if (stopFn) stopFn();
+        overlay.remove();
+        overlay = null;
+        stopFn = null;
         return;
       }
-      arcadeOverlay = document.createElement('div');
-      arcadeOverlay.className = 'arcade-overlay';
+      overlay = document.createElement('div');
+      overlay.className = 'arcade-overlay';
       const closeBtn = document.createElement('button');
       closeBtn.className = 'arcade-overlay-close';
       closeBtn.textContent = '\u2716 Close';
       closeBtn.addEventListener('click', () => {
-        if (arcadeStop) arcadeStop();
-        arcadeOverlay.remove();
-        arcadeOverlay = null;
-        arcadeStop = null;
+        if (stopFn) stopFn();
+        overlay.remove();
+        overlay = null;
+        stopFn = null;
       });
       const host = document.createElement('div');
       host.className = 'arcade-overlay-host';
-      arcadeOverlay.appendChild(closeBtn);
-      arcadeOverlay.appendChild(host);
-      document.body.appendChild(arcadeOverlay);
-      const mod = await import('./games/retroPacman.js');
-      arcadeStop = mod.mountArcade(host);
+      overlay.appendChild(closeBtn);
+      overlay.appendChild(host);
+      document.body.appendChild(overlay);
+      const mod = await import(modPath);
+      stopFn = mod.mountArcade(host);
     });
-  }
+  });
   if (toggle) {
     toggle.addEventListener('click', async (e) => {
       const btn = e.currentTarget;

@@ -15,25 +15,36 @@
     <a class="skip-link" href="#site-root">Skip to content</a>
     <header role="banner" class="site-header">
       <div class="container">
-        <div class="site-branding">
-          <h1 class="site-title">Praveen Ramesh</h1>
-        </div>
-        <div class="header-arcade-trigger" id="arcade-trigger" title="Play Pac-Man Arcade">
-          <svg class="arcade-machine-icon" viewBox="0 0 48 56" width="40" height="46" aria-hidden="true">
-            <rect x="4" y="2" width="40" height="8" rx="2" fill="#e94560"/>
-            <text x="24" y="9" text-anchor="middle" font-size="5" font-weight="900" fill="#f7d716" font-family="monospace">PAC-MAN</text>
-            <rect x="2" y="10" width="44" height="30" rx="2" fill="#1a1a2e" stroke="#000" stroke-width="2"/>
-            <rect x="8" y="14" width="32" height="20" rx="1" fill="#000" stroke="#333" stroke-width="1"/>
-            <circle cx="20" cy="24" r="3" fill="#FFFF00"/>
-            <circle cx="30" cy="22" r="2.5" fill="#FF0000"/>
-            <circle cx="28" cy="28" r="2" fill="#00FFFF"/>
-            <rect x="10" y="40" width="28" height="8" rx="1" fill="#16213e" stroke="#000" stroke-width="1"/>
-            <circle cx="18" cy="44" r="2" fill="#444"/>
-            <circle cx="30" cy="44" r="2.5" fill="#e94560"/>
-            <rect x="12" y="48" width="24" height="6" rx="1" fill="#0a0a1a"/>
-            <rect x="20" y="50" width="8" height="2" rx="0.5" fill="#333" stroke="#555" stroke-width="0.5"/>
-          </svg>
-        </div>
+        <div class="site-branding"></div>
+        <nav class="header-games" aria-label="Mini-games">
+          <button class="game-icon" id="game-pacman" title="Play Pac-Man" aria-label="Play Pac-Man">
+            <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" fill="#FFFF00"/>
+              <path d="M12 12 L22 6 L22 18 Z" fill="#0D0D0D"/>
+              <circle cx="10" cy="7" r="2" fill="#000"/>
+            </svg>
+          </button>
+          <button class="game-icon" id="game-snake" title="Play Snake" aria-label="Play Snake">
+            <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+              <rect x="2" y="10" width="6" height="6" rx="1" fill="#00FF41"/>
+              <rect x="7" y="10" width="5" height="5" fill="#00DD38"/>
+              <rect x="11" y="10" width="5" height="5" fill="#00BB30"/>
+              <rect x="15" y="10" width="5" height="5" fill="#009928"/>
+              <rect x="15" y="14" width="5" height="5" fill="#007720"/>
+              <circle cx="4" cy="12" r="1" fill="#000"/>
+              <circle cx="6" cy="12" r="1" fill="#000"/>
+            </svg>
+          </button>
+          <button class="game-icon" id="game-space" title="Play Space Shooter" aria-label="Play Space Shooter">
+            <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+              <path d="M12 2 L18 20 L12 16 L6 20 Z" fill="#00C2FF"/>
+              <path d="M12 8 L14 18 L12 15 L10 18 Z" fill="#0060AA"/>
+              <rect x="10" y="19" width="4" height="3" rx="0.5" fill="#FFD60A"/>
+              <circle cx="8" cy="5" r="0.8" fill="#FFF" opacity="0.7"/>
+              <circle cx="18" cy="10" r="0.6" fill="#FFF" opacity="0.5"/>
+            </svg>
+          </button>
+        </nav>
       </div>
     </header>
 

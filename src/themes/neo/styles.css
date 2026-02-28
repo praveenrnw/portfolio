@@ -170,21 +170,31 @@ body::after{
 .theme-toggle{border:6px solid var(--black);background:var(--pink);color:var(--white);padding:10px 12px;font-weight:900;cursor:pointer}
 .theme-toggle:active{transform:scale(.98)}
 
-/* Floating game icon placed top-right, 'hanging' style */
-.header-arcade-trigger{
-  cursor:pointer;
-  transition:transform 200ms cubic-bezier(.2,.8,.2,1);
+/* Game icon buttons in header top-right */
+.header-games{
   display:flex;
+  gap:8px;
   align-items:center;
 }
-.header-arcade-trigger:hover{
-  transform:scale(1.12) rotate(-3deg);
+.game-icon{
+  background:none;
+  border:3px solid var(--black);
+  border-radius:6px;
+  padding:4px;
+  cursor:pointer;
+  transition:transform 200ms cubic-bezier(.2,.8,.2,1), box-shadow 200ms;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--surface, #FDF6E3);
 }
-.header-arcade-trigger:active{
+.game-icon:hover{
+  transform:scale(1.15) rotate(-3deg);
+  box-shadow:3px 3px 0 var(--black);
+}
+.game-icon:active{
   transform:scale(0.95);
-}
-.arcade-machine-icon{
-  filter:drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+  box-shadow:none;
 }
 
 /* Arcade full-screen overlay */
