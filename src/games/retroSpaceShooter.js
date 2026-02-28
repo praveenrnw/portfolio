@@ -10,6 +10,8 @@
  *   // later: cleanup();
  */
 
+import { injectBaseArcadeCSS } from './arcadeBase.js';
+
 /* ════════════════════════════════════════════
    Constants
    ════════════════════════════════════════════ */
@@ -376,6 +378,10 @@ function buildCabinetHTML() {
    ════════════════════════════════════════════ */
 
 export function mountArcade(container) {
+  // inject shared base arcade cabinet CSS
+  injectBaseArcadeCSS();
+
+  // inject Space Shooter-specific overrides (once)
   if (!document.getElementById('retro-space-css')) {
     const style = document.createElement('style');
     style.id = 'retro-space-css';

@@ -10,6 +10,8 @@
  *   // later: cleanup();
  */
 
+import { injectBaseArcadeCSS } from './arcadeBase.js';
+
 /* ════════════════════════════════════════════
    Constants
    ════════════════════════════════════════════ */
@@ -223,7 +225,7 @@ function buildCabinetHTML() {
     <span class="arcade-marquee-text">S N A K E</span>
   </div>
   <div class="arcade-bezel">
-    <div class="arcade-screen-wrap">
+    <div class="arcade-screen-wrap" style="width:${W}px;height:${H}px">
       <canvas class="arcade-screen" width="${W}" height="${H}"></canvas>
       <div class="arcade-scanlines"></div>
       <div class="arcade-crt-curve"></div>
@@ -260,7 +262,10 @@ function buildCabinetHTML() {
    ════════════════════════════════════════════ */
 
 export function mountArcade(container) {
-  // inject styles (once)
+  // inject shared base arcade cabinet CSS
+  injectBaseArcadeCSS();
+
+  // inject Snake-specific overrides (once)
   if (!document.getElementById('retro-snake-css')) {
     const style = document.createElement('style');
     style.id = 'retro-snake-css';
