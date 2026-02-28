@@ -240,6 +240,28 @@ export function renderProjects(items) {
     });
     card.appendChild(techWrap);
 
+    // render project links (demo / repo)
+    if (p.links) {
+      const linkWrap = create('div', 'project-links');
+      if (p.links.demo) {
+        const a = create('a', 'project-link project-link--demo');
+        a.href = p.links.demo;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = '▶ Play';
+        linkWrap.appendChild(a);
+      }
+      if (p.links.github) {
+        const a = create('a', 'project-link project-link--repo');
+        a.href = p.links.github;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = '⌂ Repo';
+        linkWrap.appendChild(a);
+      }
+      card.appendChild(linkWrap);
+    }
+
     // view more button attached to bottom
     const view = create('a', 'project-btn');
     view.href = p.url || '#projects';
@@ -267,6 +289,41 @@ export function renderSkills(items) {
     list.appendChild(pill);
   });
   section.appendChild(list);
+  return section;
+}
+
+export function renderArcade() {
+  const section = create('section', 'neo-arcade');
+  const h3 = create('h3');
+  h3.textContent = 'Arcade';
+  section.appendChild(h3);
+  const desc = create('p', 'arcade-desc');
+  desc.textContent = 'Take a break — play a round of Pac-Man on this retro machine!';
+  section.appendChild(desc);
+  const cabinetHost = create('div', 'arcade-host');
+  const launchBtn = create('button', 'game-mode arcade-launch');
+  launchBtn.type = 'button';
+  launchBtn.textContent = '\u25B6 Insert Coin';
+  section.appendChild(launchBtn);
+  section.appendChild(cabinetHost);
+
+  let stopFn = null;
+
+  launchBtn.addEventListener('click', async () => {
+    if (stopFn) {
+      stopFn();
+      stopFn = null;
+      launchBtn.textContent = '\u25B6 Insert Coin';
+      return;
+    }
+    const mod = await import('../../games/retroPacman.js');
+    stopFn = mod.mountArcade(cabinetHost);
+    launchBtn.textContent = '\u2716 Close Arcade';
+  });
+
+  // attach a destroy hook so renderer cleanup can stop the game
+  section._stop = () => { if (stopFn) { stopFn(); stopFn = null; } };
+
   return section;
 }
 

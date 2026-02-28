@@ -57,6 +57,22 @@ export const portfolioData = {
       name: "Web Game Prototypes",
       description: "Browser-based experimental games and game jam entries.",
       tech: ["JavaScript", "HTML", "Canvas"]
+    },
+    {
+      name: "Auto Sprint",
+      description: "A fast-paced auto-runner game — dodge, dash, and survive the sprint!",
+      tech: ["Unity", "C#"],
+      links: {
+        demo: "https://praveenramesh.itch.io/auto-sprint"
+      }
+    },
+    {
+      name: "The Lone Ranger JD",
+      description: "An action-adventure game — ride solo through danger as the lone ranger.",
+      tech: ["Unity", "C#"],
+      links: {
+        demo: "https://praveenramesh.itch.io/the-lone-ranger-jd"
+      }
     }
   ],
   skills: [
