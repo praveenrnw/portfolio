@@ -26,6 +26,17 @@ export function renderHero(data) {
   const accent = create('span', 'accent-block');
   meta.appendChild(accent);
 
+  // Animated animals running away from the red accent block
+  const animals = ['🐇', '🦊', '🐈', '🐕', '🐿️'];
+  const runway = create('div', 'animal-runway');
+  animals.forEach((emoji, i) => {
+    const a = create('span', 'running-animal');
+    a.textContent = emoji;
+    a.style.animationDelay = `${i * 1.8}s`;
+    runway.appendChild(a);
+  });
+  meta.appendChild(runway);
+
   // Build hero layout
   const grid = create('div', 'hero-grid');
   const content = create('div', 'hero-content');

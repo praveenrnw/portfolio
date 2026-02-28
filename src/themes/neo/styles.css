@@ -208,6 +208,25 @@ body::after{
 /* decorative accents for neo brutalism */
 .accent-block{width:44px;height:20px;background:var(--pink);display:inline-block;margin-left:8px}
 
+/* Animals running from the red accent block */
+.hero-meta{position:relative;overflow:visible}
+.animal-runway{position:absolute;left:60px;top:0;height:24px;width:calc(100vw - 120px);overflow:hidden;pointer-events:none}
+.running-animal{
+  position:absolute;left:-30px;top:0;
+  font-size:20px;
+  opacity:0;
+  animation:animalRun 4s ease-in-out infinite;
+}
+@keyframes animalRun{
+  0%  {left:-30px;opacity:0;transform:scaleX(1)}
+  8%  {opacity:1}
+  70% {opacity:1;transform:scaleX(1)}
+  100%{left:100%;opacity:0;transform:scaleX(1.1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .running-animal{animation:none;display:none}
+}
+
 /* profile placed near the hero deco */
 .neo-hero{position:relative}
 .hero-profile{
