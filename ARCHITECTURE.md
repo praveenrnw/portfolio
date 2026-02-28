@@ -29,6 +29,7 @@ A comprehensive breakdown of every module, how they connect, and the logic drivi
 9. [Game Lifecycle Pattern](#9-game-lifecycle-pattern)
 10. [CSS Architecture](#10-css-architecture)
 11. [Key Design Decisions](#11-key-design-decisions)
+12. [UI Refinements (refine-ui)](#12-ui-refinements-refine-ui-branch)
 
 ---
 
@@ -966,10 +967,95 @@ graph TD
 | **`_stop()` cleanup pattern** | Prevents memory leaks from `requestAnimationFrame` loops when sections re-render or games close. |
 | **CSS variables for design tokens** | Makes future theme variants easy — override variables without rewriting selectors. |
 | **`create()` helper vs innerHTML** | DOM API is safer (no XSS risk) and gives typed references for event listeners. |
-| **10 FPS for Pac-Man** | Authentic retro game feel — classic arcade games ran at low frame rates. |
+| **7 FPS for Pac-Man** | Neutral retro game feel — reduced from 10 FPS for a more relaxed play speed. |
 | **Arcade CSS injected by JS** | The arcade game is optional; its styles only load when the module is imported. Avoids bloating the theme CSS. |
-| **Paper rocket as separate script** | Decorative; runs independently of the main app. Loaded via its own `<script>` tag, no coupling to the renderer. |
+| **Profile orbit animation** | CSS `@keyframes profileOrbit` rotates an icon 360° around the hero profile image in 4s loop. |
 
 ---
 
-*Generated for the `refine-ui` branch — Feb 2026*
+## 12. UI Refinements (refine-ui branch)
+
+This section documents the 8 UI/UX refinements applied in the `refine-ui` branch.
+
+### 12.1 Arcade moved to header
+
+The bottom arcade section (`renderArcade`) was removed. Instead, a small retro arcade-machine SVG icon sits in the header next to "Praveen Ramesh". Clicking it opens a full-screen overlay that dynamically imports and mounts the Pac-Man game.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant H as Header Icon
+    participant O as Overlay
+    participant P as retroPacman.js
+
+    U->>H: Click arcade icon
+    H->>O: Create .arcade-overlay (full-screen)
+    O->>P: Dynamic import() + mountArcade()
+    P-->>O: Game renders inside overlay
+    U->>O: Click ✕ close
+    O->>P: stopFn() cleanup
+    O->>O: Remove overlay from DOM
+```
+
+### 12.2 Animated animals from accent block
+
+Below the hero meta section, a row of animal emojis (🐇🦊🐈🐕🐿️) run rightward from the red accent block in a staggered infinite loop using CSS `@keyframes animalRun`. Each animal has an increasing `animation-delay` (1.8s apart).
+
+### 12.3 Terminal minimize / close animations
+
+The experience terminal gained window-control buttons:
+- **Minimize (−):** Toggles between the full terminal body and a compact view showing only company names and durations.
+- **Close (×):** Shrinks the terminal to zero scale and opacity, then pops it back open after 1 second using `@keyframes terminalPop`.
+
+### 12.4 Skill blast animation
+
+Clicking any skill node triggers:
+1. 12 radial particles burst outward from the node's center (`@keyframes skillParticleBurst`)
+2. The node itself disappears (`skill-blasting` class)
+3. After 700ms, the node reappears with a scale pop effect (`skill-reappear` class)
+
+### 12.5 Project cards — anime avatars, 3D tilt, consistent layout
+
+```mermaid
+graph LR
+    subgraph Card["project-card-3d"]
+        BODY["project-card-body"]
+        FOOTER["project-card-footer"]
+    end
+
+    BODY --> A["Anime SVG Avatar"]
+    BODY --> T["Title"]
+    BODY --> D["Description"]
+    BODY --> TB["Tech Badges"]
+
+    FOOTER --> L["Play / Repo links"]
+    FOOTER --> V["View More btn"]
+```
+
+- **Anime-style SVG avatars** replace letter-initial circles. Four variants matched by tech: Flutter (blue character), Unity (dark character), JavaScript (yellow character with JS hat), and a default pink character.
+- **3D perspective tilt** on `mousemove` — calculates cursor position relative to card and applies `perspective(600px) rotateY() rotateX() scale(1.02)`. Resets on `mouseleave`.
+- **Consistent footer layout** — cards now use `project-card-body` (flex-grow, pushes content up) and `project-card-footer` (pinned to bottom via `margin-top:auto`) so Play buttons and View More align across all cards regardless of content height.
+
+### 12.6 Bottom arcade removed
+
+`renderArcade()` function deleted from `components.js`. The `{ fn: 'renderArcade', data: null }` entry removed from `renderer.js` section order array. The arcade is accessible only via the header icon now.
+
+### 12.7 Kite removed, profile orbit + mobile tap toggle
+
+- **Paper rocket (kite) removed:** `<script>` tag for `paperRocket.js` removed from `index.html`. The floating decorative rocket no longer appears.
+- **Profile orbit:** An ⚡ icon orbits the hero profile image using `@keyframes profileOrbit` (4s linear infinite rotation). The orbit wrap is absolutely positioned over the profile.
+- **Mobile tap toggle:** On touch devices, tapping the profile image now toggles between `profile-a.jpg` and `profile-b.jpg` (sticky toggle instead of the previous auto-revert after 1.2s).
+
+### 12.8 Refined contact section
+
+The contact section was redesigned as a neo-brutal card:
+- Envelope SVG icon at the top
+- Labeled rows for Email (clickable mailto link) and Location
+- Horizontal divider
+- Two action buttons: "📋 Copy Email" (clipboard API with ✅ success state) and "🚀 Say Hello" (mailto link)
+- Hover lift + box-shadow effect on buttons
+- Mobile-responsive: buttons stack vertically on small screens
+
+---
+
+*Updated for the `refine-ui` branch — Feb 2026*
