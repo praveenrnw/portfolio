@@ -1,12 +1,16 @@
 import { portfolioData } from './data/portfolioData.js';
 import { themeManager } from './core/themeManager.js';
 import { mountRoot, renderSections } from './core/renderer.js';
+import { startLightning } from './core/lightning.js';
 
 async function boot() {
   const root = mountRoot('#app');
   // load initial theme
-  await themeManager.setTheme('neo');
+  await themeManager.setTheme('neo-dark');
   const comps = themeManager.getComponents();
+
+  // start lightning background effect
+  startLightning();
 
   // render all sections
   renderSections(root, comps, portfolioData);
